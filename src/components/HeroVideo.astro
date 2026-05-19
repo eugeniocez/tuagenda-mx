@@ -1,0 +1,188 @@
+<section class="hero-demo">
+  <div class="container">
+    <div class="hero-video" id="demo">
+      <video
+        id="heroVideo"
+        src="/assets/agendallena-demo.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"></video>
+
+      <button class="vp-fs" id="vpFullscreen" aria-label="Pantalla completa">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="white"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <polyline points="1,5 1,1 5,1"></polyline><line x1="1" y1="1" x2="5.5" y2="5.5"></line>
+          <polyline points="15,5 15,1 11,1"></polyline><line x1="15" y1="1" x2="10.5" y2="5.5"
+          ></line>
+          <polyline points="1,11 1,15 5,15"></polyline><line x1="1" y1="15" x2="5.5" y2="10.5"
+          ></line>
+          <polyline points="15,11 15,15 11,15"></polyline><line x1="15" y1="15" x2="10.5" y2="10.5"
+          ></line>
+        </svg>
+      </button>
+
+      <div class="vp" id="videoPlayer">
+        <button class="vp-btn vp-play" id="vpPlay" aria-label="Reproducir o pausar">
+          <svg width="11" height="13" viewBox="0 0 11 13" fill="white">
+            <rect x="0" y="0" width="3.5" height="13" rx="1.5"></rect>
+            <rect x="7.5" y="0" width="3.5" height="13" rx="1.5"></rect>
+          </svg>
+        </button>
+
+        <button class="vp-btn vp-icon" id="vpReplay" aria-label="Reiniciar">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="white"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M2.5 8A5.5 5.5 0 1 0 3.9 4.3"></path>
+            <polyline points="2,1.5 2,5 5.5,5"></polyline>
+          </svg>
+        </button>
+
+        <button class="vp-btn vp-icon" id="vpMute" aria-label="Silenciar o activar sonido">
+          <svg id="vpMuteIcon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M2.5 5.5H0.5v5h2l4 2.5v-10l-4 2.5z" fill="white"></path>
+            <line
+              x1="10"
+              y1="6"
+              x2="14"
+              y2="10"
+              stroke="white"
+              stroke-width="1.6"
+              stroke-linecap="round"></line>
+            <line
+              x1="14"
+              y1="6"
+              x2="10"
+              y2="10"
+              stroke="white"
+              stroke-width="1.6"
+              stroke-linecap="round"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    const video = document.getElementById('heroVideo');
+    const playBtn = document.getElementById('vpPlay');
+    const replayBtn = document.getElementById('vpReplay');
+    const muteBtn = document.getElementById('vpMute');
+    if (!video || !playBtn) return;
+
+    const SVG = {
+      play: '<svg width="11" height="13" viewBox="0 0 11 13" fill="white"><path d="M0.5 0.5l10 6-10 6V0.5z"/></svg>',
+      pause:
+        '<svg width="11" height="13" viewBox="0 0 11 13" fill="white"><rect x="0" y="0" width="3.5" height="13" rx="1.5"/><rect x="7.5" y="0" width="3.5" height="13" rx="1.5"/></svg>',
+      muted:
+        '<svg id="vpMuteIcon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 5.5H0.5v5h2l4 2.5v-10l-4 2.5z" fill="white"/><line x1="10" y1="6" x2="14" y2="10" stroke="white" stroke-width="1.6" stroke-linecap="round"/><line x1="14" y1="6" x2="10" y2="10" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>',
+      unmuted:
+        '<svg id="vpMuteIcon" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 5.5H0.5v5h2l4 2.5v-10l-4 2.5z" fill="white"/><path d="M11 6.5a3 3 0 0 1 0 3" stroke="white" stroke-width="1.6" stroke-linecap="round"/><path d="M13.2 4.5a6 6 0 0 1 0 7" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>',
+    };
+
+    playBtn.addEventListener('click', function () {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+    video.addEventListener('play', function () {
+      playBtn.innerHTML = SVG.pause;
+    });
+    video.addEventListener('pause', function () {
+      playBtn.innerHTML = SVG.play;
+    });
+
+    replayBtn.addEventListener('click', function () {
+      video.currentTime = 0;
+      video.play();
+    });
+
+    muteBtn.addEventListener('click', function () {
+      video.muted = !video.muted;
+      muteBtn.innerHTML = video.muted ? SVG.muted : SVG.unmuted;
+    });
+
+    const fsBtn = document.getElementById('vpFullscreen');
+    const container = video.parentElement;
+    const SVG_FS = {
+      enter:
+        '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,5 1,1 5,1"/><line x1="1" y1="1" x2="5.5" y2="5.5"/><polyline points="15,5 15,1 11,1"/><line x1="15" y1="1" x2="10.5" y2="5.5"/><polyline points="1,11 1,15 5,15"/><line x1="1" y1="15" x2="5.5" y2="10.5"/><polyline points="15,11 15,15 11,15"/><line x1="15" y1="15" x2="10.5" y2="10.5"/></svg>',
+      exit: '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="5,1 5,5 1,5"/><line x1="5" y1="5" x2="0.5" y2="0.5"/><polyline points="11,1 11,5 15,5"/><line x1="11" y1="5" x2="15.5" y2="0.5"/><polyline points="5,15 5,11 1,11"/><line x1="5" y1="11" x2="0.5" y2="15.5"/><polyline points="11,15 11,11 15,11"/><line x1="11" y1="11" x2="15.5" y2="15.5"/></svg>',
+    };
+    if (fsBtn) {
+      fsBtn.addEventListener('click', function () {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+          if (video.webkitEnterFullscreen) {
+            video.webkitEnterFullscreen();
+          } else {
+            (container.requestFullscreen || container.webkitRequestFullscreen).call(container);
+          }
+        } else {
+          (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+        }
+      });
+      ['fullscreenchange', 'webkitfullscreenchange'].forEach(function (ev) {
+        document.addEventListener(ev, function () {
+          const inFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+          fsBtn.innerHTML = inFs ? SVG_FS.exit : SVG_FS.enter;
+        });
+      });
+      video.addEventListener('webkitbeginfullscreen', function () {
+        fsBtn.innerHTML = SVG_FS.exit;
+      });
+      video.addEventListener('webkitendfullscreen', function () {
+        fsBtn.innerHTML = SVG_FS.enter;
+      });
+    }
+
+    const vp = document.getElementById('videoPlayer');
+    if (window.matchMedia('(max-width: 700px)').matches) {
+      let hideTimer;
+
+      function scheduleHide() {
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(function () {
+          if (vp) vp.classList.add('vp-hidden');
+          if (fsBtn) fsBtn.classList.add('vp-hidden');
+        }, 3000);
+      }
+
+      scheduleHide();
+
+      container.addEventListener(
+        'touchstart',
+        function (e) {
+          const hidden = vp && vp.classList.contains('vp-hidden');
+          if (hidden) {
+            e.preventDefault();
+            if (vp) vp.classList.remove('vp-hidden');
+            if (fsBtn) fsBtn.classList.remove('vp-hidden');
+          }
+          scheduleHide();
+        },
+        { passive: false }
+      );
+    }
+  })();
+</script>
