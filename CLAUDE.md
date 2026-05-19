@@ -315,7 +315,8 @@ agendallena-mx/
 │   ├── layouts/
 │   │   └── Base.astro                 ← head, header, footer, scripts + script A/B hero
 │   ├── components/
-│   │   ├── HeroIndex.astro            ← hero de la landing principal con 4 variantes A/B (A/B/C/D)
+│   │   ├── HeroIndex.astro            ← copy del hero: 4 variantes A/B (A/B/C/D), solo texto/botones/elementos
+│   │   ├── HeroVideo.astro            ← sección demo: video player independiente del hero copy
 │   │   ├── Hero.astro                 ← hero para páginas de verticales (props: eyebrow, h1, subtitle)
 │   │   ├── StatementStrip.astro
 │   │   ├── SocialProof.astro
@@ -374,18 +375,19 @@ Las landings de verticales usan el mismo template, cambiando solo el copy del he
 ### Secciones de la landing principal (en orden)
 
 1. Header sticky — wordmark + nav (Producto, Cómo funciona, Precio, FAQ) + CTA "Empezar gratis"
-2. Hero — eyebrow + título + subtítulo + CTA + trust signals (3 items) · variante servida por A/B test (A/B/C/D via `HeroIndex.astro`)
-3. Strip de impacto — eyebrow "El impacto" · 4 outcomes: −70% inasistencias, +1 semana ingresos, 0 min persiguiendo, 24/7
-4. Marquee de industrias — 12 tipos de negocio, animación lenta contemplativa
-5. El problema — 3 cards (WhatsApp, libreta, memoria) + stat banner 30%
-6. Cómo funciona — fondo `--verde-superficie` · 5 pasos con asimetría narrativa
-7. Módulos — 5 cards · Calendario destacado full-width en `--verde-superficie`
-8. Comparativa — tabla vs Libreta, WhatsApp, Calendly, agendallena.mx
-9. Testimonios — 3 cards (placeholders ficticios — no reemplazar con nombres reales)
-10. Precio — $199 MXN/mes
-11. FAQ — 7 preguntas, acordeón, primera abierta por default
-12. CTA final — fondo `--verde-superficie` + título + 2 CTAs
-13. Footer — wordmark + 3 columnas de links + bottom bar
+2. Hero copy — eyebrow + título + subtítulo + CTA + trust signals · variante A/B (A/B/C/D via `HeroIndex.astro`) · envuelto en `.hero-area` junto con la sección de video
+3. Hero demo — video del producto (`HeroVideo.astro`) · misma área visual que el hero (comparten fondo via `.hero-area`)
+4. Strip de impacto — eyebrow "El impacto" · 4 outcomes: −70% inasistencias, +1 semana ingresos, 0 min persiguiendo, 24/7
+5. Marquee de industrias — 12 tipos de negocio, animación lenta contemplativa
+6. El problema — 3 cards (WhatsApp, libreta, memoria) + stat banner 30%
+7. Cómo funciona — fondo `--verde-superficie` · 5 pasos con asimetría narrativa
+8. Módulos — 5 cards · Calendario destacado full-width en `--verde-superficie`
+9. Comparativa — tabla vs Libreta, WhatsApp, Calendly, agendallena.mx
+10. Testimonios — 3 cards (placeholders ficticios — no reemplazar con nombres reales)
+11. Precio — $199 MXN/mes
+12. FAQ — 7 preguntas, acordeón, primera abierta por default
+13. CTA final — fondo `--verde-superficie` + título + 2 CTAs
+14. Footer — wordmark + 3 columnas de links + bottom bar
 
 **CTA primario:** "Empezar gratis" (→ signup) — texto puede variar por variante A/B
 
@@ -406,10 +408,15 @@ Las landings de verticales usan el mismo template, cambiando solo el copy del he
 El hero de la landing principal (`/`) sirve 4 variantes (A/B/C/D) con distribución 25/25/25/25.
 
 - **Asignación:** script inline en `<head>` de `Base.astro` — escribe en `localStorage` y setea `data-ab-hero` en `<html>` antes del primer paint
-- **Componente:** `src/components/HeroIndex.astro` — 4 bloques `[data-hero-variant]`, el video es compartido
-- **CSS:** reglas show/hide en `global.css` — clase `.btn-verde` para botón verde
+- **Componente:** `src/components/HeroIndex.astro` — 4 bloques `[data-hero-variant]`, cada uno `display: block` cuando activo
+- **Video:** separado en `src/components/HeroVideo.astro` — no forma parte de las variantes, nunca lo modifiques como parte de un test
+- **Fondo compartido:** en `index.astro` ambos componentes viven dentro de `<div class="hero-area">` — ese wrapper lleva el mesh gradient. No mover ninguno de los dos fuera del wrapper sin ajustar el CSS
+- **CSS show/hide:** `global.css` — variante activa usa `display: block` (no `contents`), lo que permite que cada variante defina su propio layout interno (grid, flex, columnas, imágenes, cards)
+- **Agregar elementos ricos a una variante:** pon el HTML dentro del `[data-hero-variant="X"]` correspondiente y agrega CSS scoped `[data-hero-variant="X"] { display: grid; ... }` en `global.css`
+- **Imágenes en variantes:** usar `data-ab-src-X` + `data-ab-img` (ver patrón en §8 al agregarse la primera imagen) para evitar descargar imágenes de variantes inactivas
+- **Clase `.btn-verde`:** botón CTA verde (variantes B/C/D) — no agregar a variante A (es el control)
 - **Tracking:** GTM pushea `ab_hero_assign` al cargar y enriquece cada `cta_click` con parámetro `ab_hero`
-- **Para agregar variantes:** ver formulario en el plan activo. Al agregar variante nueva, actualizar el script de asignación en `Base.astro` y las reglas CSS en `global.css`
+- **Para agregar variantes:** actualizar el script de asignación en `Base.astro` (ampliar el `Math.random()`) y las reglas CSS en `global.css`
 
 ### Fase 4 — en curso
 
@@ -419,4 +426,4 @@ El hero de la landing principal (`/`) sirve 4 variantes (A/B/C/D) con distribuci
 
 ---
 
-**Última actualización:** Mayo 2026 · **Versión:** 4.1
+**Última actualización:** Mayo 2026 · **Versión:** 4.2
