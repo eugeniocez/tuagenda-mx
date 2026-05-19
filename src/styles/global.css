@@ -593,7 +593,11 @@ p {
 html[data-ab-hero="A"] [data-hero-variant="A"],
 html[data-ab-hero="B"] [data-hero-variant="B"],
 html[data-ab-hero="C"] [data-hero-variant="C"],
-html[data-ab-hero="D"] [data-hero-variant="D"] { display: block; }
+html[data-ab-hero="D"] [data-hero-variant="D"],
+html[data-ab-hero="E"] [data-hero-variant="E"],
+html[data-ab-hero="F"] [data-hero-variant="F"],
+html[data-ab-hero="G"] [data-hero-variant="G"],
+html[data-ab-hero="H"] [data-hero-variant="H"] { display: block; }
 html:not([data-ab-hero]) [data-hero-variant="A"] { display: block; }
 
 .btn-primary-lg.btn-verde {

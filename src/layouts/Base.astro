@@ -33,7 +33,7 @@ import '../styles/global.css';
         var v = localStorage.getItem(KEY);
         if (!v) {
           var r = Math.random();
-          v = r < 0.25 ? 'A' : r < 0.5 ? 'B' : r < 0.75 ? 'C' : 'D';
+          v = r < 0.125 ? 'A' : r < 0.25 ? 'B' : r < 0.375 ? 'C' : r < 0.5 ? 'D' : r < 0.625 ? 'E' : r < 0.75 ? 'F' : r < 0.875 ? 'G' : 'H';
           localStorage.setItem(KEY, v);
         }
         document.documentElement.setAttribute('data-ab-hero', v);
