@@ -597,7 +597,10 @@ html[data-ab-hero="D"] [data-hero-variant="D"],
 html[data-ab-hero="E"] [data-hero-variant="E"],
 html[data-ab-hero="F"] [data-hero-variant="F"],
 html[data-ab-hero="G"] [data-hero-variant="G"],
-html[data-ab-hero="H"] [data-hero-variant="H"] { display: block; }
+html[data-ab-hero="H"] [data-hero-variant="H"],
+html[data-ab-hero="I"] [data-hero-variant="I"],
+html[data-ab-hero="J"] [data-hero-variant="J"],
+html[data-ab-hero="K"] [data-hero-variant="K"] { display: block; }
 html:not([data-ab-hero]) [data-hero-variant="A"] { display: block; }
 
 .btn-primary-lg.btn-verde {

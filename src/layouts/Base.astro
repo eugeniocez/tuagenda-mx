@@ -33,7 +33,7 @@ import '../styles/global.css';
         var v = localStorage.getItem(KEY);
         if (!v) {
           var r = Math.random();
-          v = r < 0.125 ? 'A' : r < 0.25 ? 'B' : r < 0.375 ? 'C' : r < 0.5 ? 'D' : r < 0.625 ? 'E' : r < 0.75 ? 'F' : r < 0.875 ? 'G' : 'H';
+          v = r < 0.0909 ? 'A' : r < 0.1818 ? 'B' : r < 0.2727 ? 'C' : r < 0.3636 ? 'D' : r < 0.4545 ? 'E' : r < 0.5455 ? 'F' : r < 0.6364 ? 'G' : r < 0.7273 ? 'H' : r < 0.8182 ? 'I' : r < 0.9091 ? 'J' : 'K';
           localStorage.setItem(KEY, v);
         }
         document.documentElement.setAttribute('data-ab-hero', v);
@@ -188,7 +188,7 @@ import '../styles/global.css';
             <h4>Soporte</h4>
             <ul>
               <li><a href="/soporte">Centro de ayuda</a></li>
-              <li><a href="#">WhatsApp</a></li>
+              <li><a href="https://wa.me/528135470601?text=Me%20interesa%20conocer%20m%C3%A1s%20de%20agendallena" target="_blank" rel="noopener">WhatsApp</a></li>
               <li><a href="#">Estado del servicio</a></li>
             </ul>
           </div>
