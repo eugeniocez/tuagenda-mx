@@ -339,7 +339,9 @@ import '../styles/global.css';
 
         // A/B hero — registra qué variante del hero recibió este visitante
         const heroVariant = document.documentElement.getAttribute('data-ab-hero') || 'A';
-        push({ event: 'ab_hero_assign', ab_hero: heroVariant });
+        var heroLabels = { A: 'original', B: 'confirmaciones auto', C: 'agenda sola', D: 'deja de hacerlo tú', E: 'pérdida cuantificada', F: 'peer pressure', G: 'reframe precio', H: 'challenge medible', I: 'recordatorios #1', J: 'siempre llena', K: '10x citas' };
+        var heroLabel = heroVariant + ' - ' + (heroLabels[heroVariant] || heroVariant);
+        push({ event: 'ab_hero_assign', ab_hero: heroLabel });
 
         // CTA clicks — event delegation con capture para garantizar que llega antes del scroll handler
         document.addEventListener(
@@ -355,7 +357,7 @@ import '../styles/global.css';
               cta_location: getSection(btn),
               cta_type: btn.classList.contains('btn-secondary-lg') ? 'secondary' : 'primary',
               cta_destination: btn.getAttribute('href') || '',
-              ab_hero: heroVariant,
+              ab_hero: heroLabel,
             });
           },
           true
