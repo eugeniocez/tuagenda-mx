@@ -18,6 +18,24 @@ const HERO_PATH = path.join(ROOT, 'src/components/HeroIndex.astro')
 const HISTORY_PATH = path.join(ROOT, 'docs/ab-matrix/history.json')
 const OUTPUT_PATH = path.join(ROOT, 'docs/ab-matrix/ab-matrix.html')
 const AB_COPY_PATH = path.join(ROOT, '../agendallena-analytics/src/data/ab-copy.json')
+// Etiquetas y ángulos canónicos por variante — actualizar al agregar nuevas
+const VARIANT_META = {
+  A: { label: 'control — tagline directo',                    angle: 'control' },
+  B: { label: 'ángulo económico — confirmaciones auto',       angle: 'automation-benefit' },
+  C: { label: 'resultado directo — agenda se confirma sola',  angle: 'automation-benefit' },
+  D: { label: 'reemplazo de hábito — deja de confirmar',      angle: 'habit-replacement' },
+  E: { label: 'pérdida cuantificada — 3/10 citas = $8,000',  angle: 'loss-quantified' },
+  F: { label: 'peer pressure — tu competencia ya confirmó',   angle: 'social-proof-urgency' },
+  G: { label: 'reframe precio — cita perdida > $199',         angle: 'price-reframe' },
+  H: { label: 'challenge medible — cuenta las citas perdidas', angle: 'challenge' },
+  I: { label: 'recordatorios #1 — sistema líder en México',  angle: 'authority-positioning' },
+  J: { label: 'agenda siempre llena — retención de clientes', angle: 'abundance-outcome' },
+  K: { label: '10x citas — elimina plantones',                angle: 'hyperbolic-outcome' },
+  L: { label: 'identidad — tu agenda no falla nunca',         angle: 'identity' },
+  M: { label: 'certeza — sabes exactamente quién llega',      angle: 'certainty' },
+  N: { label: 'resultado financiero positivo — menos inasistencias más ingresos', angle: 'positive-financial-outcome' },
+}
+
 const ANALYTICS_URLS = process.env.ANALYTICS_PORT
   ? [`http://localhost:${process.env.ANALYTICS_PORT}/api/ab-export`]
   : [
@@ -125,19 +143,24 @@ function mergeHistory(history, parsedCopy, perfData, today) {
   // Update active variants with fresh copy
   for (const [letter, copy] of Object.entries(parsedCopy)) {
     if (!history[letter]) {
-      // New variant — add it
+      const meta = VARIANT_META[letter] || { label: copy.h1.slice(0, 50), angle: 'unknown' }
       history[letter] = {
         letter,
-        label: `nueva variante — ${copy.h1.slice(0, 40)}`,
-        angle: 'unknown',
+        label: meta.label,
+        angle: meta.angle,
         status: 'active',
         addedDate: today,
         killedDate: null,
         copy,
         performance: { assignments: 0, ctaClicks: 0, conversionRate: 0, lastUpdated: null },
       }
-      console.log(`  ✚ Nueva variante detectada: ${letter}`)
+      console.log(`  ✚ Nueva variante detectada: ${letter} — ${meta.label}`)
     } else {
+      // Actualizar label/angle si están en VARIANT_META y el historial tiene valores viejos
+      if (VARIANT_META[letter]) {
+        history[letter].label = VARIANT_META[letter].label
+        history[letter].angle = VARIANT_META[letter].angle
+      }
       history[letter].copy = copy
       history[letter].status = 'active'
     }

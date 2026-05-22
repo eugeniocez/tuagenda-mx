@@ -23,7 +23,7 @@
       "assignments": 114,
       "ctaClicks": 14,
       "conversionRate": 12.28,
-      "lastUpdated": "2026-05-22T03:22:55.322Z"
+      "lastUpdated": "2026-05-22T03:29:48.363Z"
     }
   },
   "B": {
@@ -50,7 +50,7 @@
       "assignments": 144,
       "ctaClicks": 13,
       "conversionRate": 9.03,
-      "lastUpdated": "2026-05-22T03:22:55.322Z"
+      "lastUpdated": "2026-05-22T03:29:48.363Z"
     }
   },
   "C": {
@@ -77,12 +77,12 @@
       "assignments": 100,
       "ctaClicks": 2,
       "conversionRate": 2,
-      "lastUpdated": "2026-05-22T03:22:55.322Z"
+      "lastUpdated": "2026-05-22T03:29:48.363Z"
     }
   },
   "D": {
     "letter": "D",
-    "label": "reemplazo de hábito — deja de confirmar por WhatsApp",
+    "label": "reemplazo de hábito — deja de confirmar",
     "angle": "habit-replacement",
     "status": "active",
     "addedDate": "2026-05-19",
@@ -104,7 +104,7 @@
       "assignments": 103,
       "ctaClicks": 7,
       "conversionRate": 6.8,
-      "lastUpdated": "2026-05-22T03:22:55.322Z"
+      "lastUpdated": "2026-05-22T03:29:48.363Z"
     }
   },
   "E": {
@@ -131,7 +131,7 @@
       "assignments": 100,
       "ctaClicks": 7,
       "conversionRate": 7,
-      "lastUpdated": "2026-05-22T03:22:55.322Z"
+      "lastUpdated": "2026-05-22T03:29:48.363Z"
     }
   },
   "F": {
@@ -158,7 +158,7 @@
       "assignments": 103,
       "ctaClicks": 6,
       "conversionRate": 5.83,
-      "lastUpdated": "2026-05-22T03:22:55.322Z"
+      "lastUpdated": "2026-05-22T03:29:48.363Z"
     }
   },
   "G": {
@@ -185,7 +185,7 @@
       "assignments": 66,
       "ctaClicks": 5,
       "conversionRate": 7.58,
-      "lastUpdated": "2026-05-22T03:22:55.322Z"
+      "lastUpdated": "2026-05-22T03:29:48.363Z"
     }
   },
   "H": {
@@ -212,7 +212,7 @@
       "assignments": 68,
       "ctaClicks": 1,
       "conversionRate": 1.47,
-      "lastUpdated": "2026-05-22T03:22:55.322Z"
+      "lastUpdated": "2026-05-22T03:29:48.363Z"
     }
   },
   "I": {
@@ -239,7 +239,7 @@
       "assignments": 41,
       "ctaClicks": 5,
       "conversionRate": 12.2,
-      "lastUpdated": "2026-05-22T03:22:55.322Z"
+      "lastUpdated": "2026-05-22T03:29:48.363Z"
     }
   },
   "J": {
@@ -266,7 +266,7 @@
       "assignments": 34,
       "ctaClicks": 3,
       "conversionRate": 8.82,
-      "lastUpdated": "2026-05-22T03:22:55.322Z"
+      "lastUpdated": "2026-05-22T03:29:48.363Z"
     }
   },
   "K": {
@@ -293,13 +293,13 @@
       "assignments": 30,
       "ctaClicks": 1,
       "conversionRate": 3.33,
-      "lastUpdated": "2026-05-22T03:22:55.322Z"
+      "lastUpdated": "2026-05-22T03:29:48.363Z"
     }
   },
   "L": {
     "letter": "L",
-    "label": "nueva variante — Tu agenda no falla. Nunca.",
-    "angle": "unknown",
+    "label": "identidad — tu agenda no falla nunca",
+    "angle": "identity",
     "status": "active",
     "addedDate": "2026-05-22",
     "killedDate": null,
@@ -325,8 +325,8 @@
   },
   "M": {
     "letter": "M",
-    "label": "nueva variante — Sabes exactamente quién llega mañana.",
-    "angle": "unknown",
+    "label": "certeza — sabes exactamente quién llega",
+    "angle": "certainty",
     "status": "active",
     "addedDate": "2026-05-22",
     "killedDate": null,
@@ -352,8 +352,8 @@
   },
   "N": {
     "letter": "N",
-    "label": "nueva variante — Menos inasistencias. Más ingresos.",
-    "angle": "unknown",
+    "label": "resultado financiero positivo — menos inasistencias más ingresos",
+    "angle": "positive-financial-outcome",
     "status": "active",
     "addedDate": "2026-05-22",
     "killedDate": null,
