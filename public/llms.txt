@@ -1,0 +1,64 @@
+# agendallena
+
+> agendallena es un sistema de confirmación automática de citas para negocios B2B en México que viven de su agenda: clínicas, consultorios, salones, barberías, talleres mecánicos y similares. Envía SMS, WhatsApp y llamadas automáticas antes de cada cita para reducir inasistencias, sin intervención del dueño del negocio.
+
+## Producto
+
+agendallena no es un calendario ni un CRM. Es un sistema que convierte citas tentativas en citas confirmadas mediante automatización de mensajes y llamadas. El negocio agenda la cita; agendallena se encarga de confirmarla con el cliente.
+
+**Precio:** $199 MXN/mes. Sin contratos. Sin límites de citas. Incluye mensajes y llamadas. 15 días de prueba gratis sin tarjeta de crédito.
+
+**Canales de confirmación:** SMS, WhatsApp y llamada automatizada.
+
+**Flujo automático por cita:**
+- Inmediato al agendar: SMS de confirmación al cliente
+- 24 horas antes: SMS de recordatorio con opciones Confirmar / Cancelar / Reagendar
+- Si no responde, 2 horas antes: llamada automatizada
+- Si pide reagendar: link de WhatsApp prellenado al negocio
+- 2 horas después de la cita: mensaje de agradecimiento
+
+**Módulos principales:** Calendario (vista semafórica de estados), Directorio de clientes, Nueva cita, Invitar (reactivación masiva), Ajustes.
+
+**Métodos de pago:** tarjeta recurrente, pago único con tarjeta, OXXO.
+
+## Verticales atendidas
+
+Clínicas dentales, consultorios médicos, psicólogos y terapeutas, terapistas, quiroprácticos, nutriólogos, veterinarias, salones de belleza, barberías, salones de uñas, spas, tatuadores, estudios de yoga, entrenadores personales, despachos legales, talleres mecánicos.
+
+## Páginas principales
+
+- [Inicio](https://agendallena.mx/) — Landing principal con descripción del producto, cómo funciona, módulos, comparativa vs competencia, precio y FAQ
+- [Soporte](https://agendallena.mx/soporte) — Centro de ayuda con preguntas frecuentes sobre configuración, facturación, uso del producto y resolución de problemas
+- [Términos de servicio](https://agendallena.mx/terminos) — Condiciones de uso del servicio
+- [Privacidad](https://agendallena.mx/privacidad) — Política de privacidad y tratamiento de datos
+
+## Páginas por vertical
+
+- [Dentistas](https://agendallena.mx/dentistas) — Confirmación de citas para clínicas dentales
+- [Consultorios médicos](https://agendallena.mx/consultorios-medicos) — Confirmación de citas para consultorios
+- [Psicólogos](https://agendallena.mx/psicologos) — Confirmación de citas para psicólogos y terapeutas
+- [Salones de belleza](https://agendallena.mx/salones-de-belleza) — Confirmación de citas para salones
+- [Barberías](https://agendallena.mx/barberias) — Confirmación de citas para barberías
+- [Spas](https://agendallena.mx/spas) — Confirmación de citas para spas
+- [Talleres mecánicos](https://agendallena.mx/talleres-mecanicos) — Confirmación de citas para talleres
+- [Nutriólogos](https://agendallena.mx/nutriologos) — Confirmación de citas para nutriólogos
+- [Veterinarias](https://agendallena.mx/veterinarias) — Confirmación de citas para clínicas veterinarias
+- [Entrenadores personales](https://agendallena.mx/entrenadores-personales) — Confirmación de citas para entrenadores
+
+## Contexto de mercado
+
+Los negocios basados en citas en México pierden en promedio 30% de sus citas por inasistencias no gestionadas. Las herramientas existentes (WhatsApp manual, libreta, Calendly) no automatizan confirmaciones para el mercado latinoamericano ni integran llamadas automáticas.
+
+## Lo que agendallena NO es
+
+- No es un calendario para agendar citas (el negocio agenda en su propio sistema o en agendallena)
+- No es un CRM
+- No es un chatbot con inteligencia artificial conversacional
+- No es una herramienta de marketing masivo
+- No opera fuera de México y LATAM hispanohablante
+
+## Registro y acceso
+
+- App web (PWA): https://app.agendallena.mx
+- Registro: https://app.agendallena.mx/registro
+- Contacto: hola@agendallena.mx
