@@ -592,15 +592,15 @@ p {
 [data-hero-variant] { display: none; }
 html[data-ab-hero="A"] [data-hero-variant="A"],
 html[data-ab-hero="B"] [data-hero-variant="B"],
-html[data-ab-hero="C"] [data-hero-variant="C"],
 html[data-ab-hero="D"] [data-hero-variant="D"],
 html[data-ab-hero="E"] [data-hero-variant="E"],
 html[data-ab-hero="F"] [data-hero-variant="F"],
 html[data-ab-hero="G"] [data-hero-variant="G"],
-html[data-ab-hero="H"] [data-hero-variant="H"],
 html[data-ab-hero="I"] [data-hero-variant="I"],
 html[data-ab-hero="J"] [data-hero-variant="J"],
-html[data-ab-hero="K"] [data-hero-variant="K"] { display: block; }
+html[data-ab-hero="L"] [data-hero-variant="L"],
+html[data-ab-hero="M"] [data-hero-variant="M"],
+html[data-ab-hero="N"] [data-hero-variant="N"] { display: block; }
 html:not([data-ab-hero]) [data-hero-variant="A"] { display: block; }
 
 .btn-primary-lg.btn-verde {

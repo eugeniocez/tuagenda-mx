@@ -33,7 +33,7 @@ import '../styles/global.css';
         var v = localStorage.getItem(KEY);
         if (!v) {
           var r = Math.random();
-          v = r < 0.0909 ? 'A' : r < 0.1818 ? 'B' : r < 0.2727 ? 'C' : r < 0.3636 ? 'D' : r < 0.4545 ? 'E' : r < 0.5455 ? 'F' : r < 0.6364 ? 'G' : r < 0.7273 ? 'H' : r < 0.8182 ? 'I' : r < 0.9091 ? 'J' : 'K';
+          v = r < 0.0909 ? 'A' : r < 0.1818 ? 'B' : r < 0.2727 ? 'D' : r < 0.3636 ? 'E' : r < 0.4545 ? 'F' : r < 0.5455 ? 'G' : r < 0.6364 ? 'I' : r < 0.7273 ? 'J' : r < 0.8182 ? 'L' : r < 0.9091 ? 'M' : 'N';
           localStorage.setItem(KEY, v);
         }
         document.documentElement.setAttribute('data-ab-hero', v);
@@ -339,7 +339,7 @@ import '../styles/global.css';
 
         // A/B hero — registra qué variante del hero recibió este visitante
         const heroVariant = document.documentElement.getAttribute('data-ab-hero') || 'A';
-        var heroLabels = { A: 'original', B: 'confirmaciones auto', C: 'agenda sola', D: 'deja de hacerlo tú', E: 'pérdida cuantificada', F: 'peer pressure', G: 'reframe precio', H: 'challenge medible', I: 'recordatorios #1', J: 'siempre llena', K: '10x citas' };
+        var heroLabels = { A: 'original', B: 'confirmaciones auto', D: 'deja de hacerlo tú', E: 'pérdida cuantificada', F: 'peer pressure', G: 'reframe precio', I: 'recordatorios #1', J: 'siempre llena', L: 'identidad nunca falla', M: 'certeza quién llega', N: 'menos inasistencias más ingresos' };
         var heroLabel = heroVariant + ' - ' + (heroLabels[heroVariant] || heroVariant);
         push({ event: 'ab_hero_assign', ab_hero: heroLabel });
 

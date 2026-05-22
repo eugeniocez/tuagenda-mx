@@ -1,0 +1,380 @@
+{
+  "A": {
+    "letter": "A",
+    "label": "control — tagline directo",
+    "angle": "control",
+    "status": "active",
+    "addedDate": "2026-05-19",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "",
+      "h1": "Tu agenda, confirmada.",
+      "h1Accent": "confirmada.",
+      "subtitle": "La solución que confirma tu agenda por ti. Menos inasistencias, más certeza, sin perseguir a nadie por WhatsApp.",
+      "ctaText": "Empezar gratis",
+      "ctaColor": "default",
+      "trustSignals": [
+        "15 días gratis · sin tarjeta",
+        "Mensajes y llamadas incluidos",
+        "Listo en 5 minutos"
+      ]
+    },
+    "performance": {
+      "assignments": 114,
+      "ctaClicks": 14,
+      "conversionRate": 12.28,
+      "lastUpdated": "2026-05-22T03:22:55.322Z"
+    }
+  },
+  "B": {
+    "letter": "B",
+    "label": "ángulo económico — confirmaciones auto",
+    "angle": "automation-benefit",
+    "status": "active",
+    "addedDate": "2026-05-19",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "Para negocios que viven de su agenda",
+      "h1": "Confirmaciones automáticas. Tu agenda siempre llena.",
+      "h1Accent": "Tu agenda siempre llena.",
+      "subtitle": "agendallena envía SMS, WhatsApp y una llamada por cada cita — sin que levantes el teléfono. El cliente confirma, tú solo atiendes.",
+      "ctaText": "Empezar gratis",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "$199/mes. Sin contratos. Sin sorpresas.",
+        "Mensajes y llamadas incluidos",
+        "Listo en 5 minutos"
+      ]
+    },
+    "performance": {
+      "assignments": 144,
+      "ctaClicks": 13,
+      "conversionRate": 9.03,
+      "lastUpdated": "2026-05-22T03:22:55.322Z"
+    }
+  },
+  "C": {
+    "letter": "C",
+    "label": "resultado directo — agenda se confirma sola",
+    "angle": "automation-benefit",
+    "status": "killed",
+    "addedDate": "2026-05-19",
+    "killedDate": "2026-05-22",
+    "copy": {
+      "eyebrow": "Tu sistema de confirmación en automático",
+      "h1": "Tu agenda se confirma sola. Tú solo atiende.",
+      "h1Accent": "Tú solo atiende.",
+      "subtitle": "SMS, WhatsApp y llamada automática antes de cada cita. El cliente confirma, cancela o reagenda — tú lo ves en tu calendario al instante.",
+      "ctaText": "Probar 15 días gratis",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "Sin tarjeta de crédito",
+        "−70% inasistencias en promedio",
+        "Listo en 5 minutos"
+      ]
+    },
+    "performance": {
+      "assignments": 100,
+      "ctaClicks": 2,
+      "conversionRate": 2,
+      "lastUpdated": "2026-05-22T03:22:55.322Z"
+    }
+  },
+  "D": {
+    "letter": "D",
+    "label": "reemplazo de hábito — deja de confirmar por WhatsApp",
+    "angle": "habit-replacement",
+    "status": "active",
+    "addedDate": "2026-05-19",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "¿Aún confirmas citas por WhatsApp?",
+      "h1": "Deja de hacerlo tú. agendallena lo hace solo.",
+      "h1Accent": "agendallena lo hace solo.",
+      "subtitle": "SMS, WhatsApp y llamada antes de cada cita — sin que muevas un dedo. Tus clientes confirman, tú solo atiendes.",
+      "ctaText": "Empezar gratis",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "15 días gratis · sin tarjeta",
+        "Pago con tarjeta o en OXXO",
+        "Listo en 5 minutos"
+      ]
+    },
+    "performance": {
+      "assignments": 103,
+      "ctaClicks": 7,
+      "conversionRate": 6.8,
+      "lastUpdated": "2026-05-22T03:22:55.322Z"
+    }
+  },
+  "E": {
+    "letter": "E",
+    "label": "pérdida cuantificada — 3/10 citas = $8,000",
+    "angle": "loss-quantified",
+    "status": "active",
+    "addedDate": "2026-05-19",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "los números no mienten",
+      "h1": "3 de cada 10 citas no llegan. eso son más de $8,000 al mes.",
+      "h1Accent": "eso son más de $8,000 al mes.",
+      "subtitle": "Cada cita olvidada es dinero regalado. agendallena la recupera.",
+      "ctaText": "Recuperar mi dinero",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "Pago con tarjeta o en Oxxo",
+        "Cancela 24/7",
+        "Se paga solo a la 1ra cita"
+      ]
+    },
+    "performance": {
+      "assignments": 100,
+      "ctaClicks": 7,
+      "conversionRate": 7,
+      "lastUpdated": "2026-05-22T03:22:55.322Z"
+    }
+  },
+  "F": {
+    "letter": "F",
+    "label": "peer pressure — tu competencia ya confirmó",
+    "angle": "social-proof-urgency",
+    "status": "active",
+    "addedDate": "2026-05-19",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "mientras tú lees esto",
+      "h1": "Tu competencia ya confirmó las citas de mañana.",
+      "h1Accent": "las citas de mañana.",
+      "subtitle": "Los demás ya confirman solos. Tú sigues persiguiendo.",
+      "ctaText": "No quedarme atrás",
+      "ctaColor": "default",
+      "trustSignals": [
+        "Pago con tarjeta o en Oxxo",
+        "Cancela 24/7",
+        "Tuyo en 1 minuto"
+      ]
+    },
+    "performance": {
+      "assignments": 103,
+      "ctaClicks": 6,
+      "conversionRate": 5.83,
+      "lastUpdated": "2026-05-22T03:22:55.322Z"
+    }
+  },
+  "G": {
+    "letter": "G",
+    "label": "reframe precio — cita perdida > $199",
+    "angle": "price-reframe",
+    "status": "active",
+    "addedDate": "2026-05-19",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "la matemática que cambia el cálculo",
+      "h1": "Cada cita que pierdes cuesta más de $199.",
+      "h1Accent": "cuesta más de $199.",
+      "subtitle": "Una sola cita recuperada paga el plan del mes entero.",
+      "ctaText": "Llenar mi agenda",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "Pago con tarjeta o en Oxxo",
+        "Cancela 24/7",
+        "Tuyo en 1 minuto"
+      ]
+    },
+    "performance": {
+      "assignments": 66,
+      "ctaClicks": 5,
+      "conversionRate": 7.58,
+      "lastUpdated": "2026-05-22T03:22:55.322Z"
+    }
+  },
+  "H": {
+    "letter": "H",
+    "label": "challenge medible — cuenta las citas perdidas",
+    "angle": "challenge",
+    "status": "killed",
+    "addedDate": "2026-05-19",
+    "killedDate": "2026-05-22",
+    "copy": {
+      "eyebrow": "la prueba del dinero",
+      "h1": "Cuenta las citas que perdiste este mes.",
+      "h1Accent": "este mes.",
+      "subtitle": "Esa cifra es lo que agendallena te devuelve.",
+      "ctaText": "Dejar de perder citas",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "Pago con tarjeta o en Oxxo",
+        "Cancela 24/7",
+        "Tuyo en 1 minuto"
+      ]
+    },
+    "performance": {
+      "assignments": 68,
+      "ctaClicks": 1,
+      "conversionRate": 1.47,
+      "lastUpdated": "2026-05-22T03:22:55.322Z"
+    }
+  },
+  "I": {
+    "letter": "I",
+    "label": "recordatorios #1 — sistema líder en México",
+    "angle": "authority-positioning",
+    "status": "active",
+    "addedDate": "2026-05-20",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "Líderes en México",
+      "h1": "El sistema #1 de recordatorios",
+      "h1Accent": "recordatorios",
+      "subtitle": "Asegura que llegue cada cliente con recordatorios y llamadas automáticas.",
+      "ctaText": "Empieza 15 días gratis",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "Prueba sin tarjeta",
+        "Citas ilimitadas",
+        "Mensajes y llamadas incluidas"
+      ]
+    },
+    "performance": {
+      "assignments": 41,
+      "ctaClicks": 5,
+      "conversionRate": 12.2,
+      "lastUpdated": "2026-05-22T03:22:55.322Z"
+    }
+  },
+  "J": {
+    "letter": "J",
+    "label": "agenda siempre llena — retención de clientes",
+    "angle": "abundance-outcome",
+    "status": "active",
+    "addedDate": "2026-05-20",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "Líderes en retención de cliente para México",
+      "h1": "Tu agenda. Siempre llena.",
+      "h1Accent": "Siempre llena.",
+      "subtitle": "Invitaciones automáticas, inteligentes y constantes a toda tu base de clientes. Ningún cliente previo te olvidará.",
+      "ctaText": "Empieza 15 días gratis",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "Prueba sin tarjeta",
+        "Citas ilimitadas",
+        "Mensajes y llamadas incluidas"
+      ]
+    },
+    "performance": {
+      "assignments": 34,
+      "ctaClicks": 3,
+      "conversionRate": 8.82,
+      "lastUpdated": "2026-05-22T03:22:55.322Z"
+    }
+  },
+  "K": {
+    "letter": "K",
+    "label": "10x citas — elimina plantones",
+    "angle": "hyperbolic-outcome",
+    "status": "killed",
+    "addedDate": "2026-05-20",
+    "killedDate": "2026-05-22",
+    "copy": {
+      "eyebrow": "Líderes en México",
+      "h1": "Elimina los plantones y multiplica tus citas 10x",
+      "h1Accent": "10x",
+      "subtitle": "Invita, recuerda y confirma a todos tus clientes para asegurar que tu negocio siempre esté lleno.",
+      "ctaText": "Empieza 15 días gratis",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "Prueba sin tarjeta",
+        "Citas ilimitadas",
+        "Mensajes y llamadas incluidas"
+      ]
+    },
+    "performance": {
+      "assignments": 30,
+      "ctaClicks": 1,
+      "conversionRate": 3.33,
+      "lastUpdated": "2026-05-22T03:22:55.322Z"
+    }
+  },
+  "L": {
+    "letter": "L",
+    "label": "nueva variante — Tu agenda no falla. Nunca.",
+    "angle": "unknown",
+    "status": "active",
+    "addedDate": "2026-05-22",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "para los que toman en serio su negocio",
+      "h1": "Tu agenda no falla. Nunca.",
+      "h1Accent": "Nunca.",
+      "subtitle": "agendallena confirma cada cita por SMS, WhatsApp y llamada — sin que levantes el teléfono.",
+      "ctaText": "Empezar gratis",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "15 días gratis · sin tarjeta",
+        "Mensajes y llamadas incluidos",
+        "Listo en 5 minutos"
+      ]
+    },
+    "performance": {
+      "assignments": 0,
+      "ctaClicks": 0,
+      "conversionRate": 0,
+      "lastUpdated": null
+    }
+  },
+  "M": {
+    "letter": "M",
+    "label": "nueva variante — Sabes exactamente quién llega mañana.",
+    "angle": "unknown",
+    "status": "active",
+    "addedDate": "2026-05-22",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "",
+      "h1": "Sabes exactamente quién llega mañana.",
+      "h1Accent": "quién llega mañana.",
+      "subtitle": "Cada cita confirmada por SMS, WhatsApp y llamada. Tu calendario siempre al día, sin perseguir a nadie.",
+      "ctaText": "Empezar gratis",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "15 días gratis · sin tarjeta",
+        "Mensajes y llamadas incluidos",
+        "Listo en 5 minutos"
+      ]
+    },
+    "performance": {
+      "assignments": 0,
+      "ctaClicks": 0,
+      "conversionRate": 0,
+      "lastUpdated": null
+    }
+  },
+  "N": {
+    "letter": "N",
+    "label": "nueva variante — Menos inasistencias. Más ingresos.",
+    "angle": "unknown",
+    "status": "active",
+    "addedDate": "2026-05-22",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "la diferencia está en un mensaje",
+      "h1": "Menos inasistencias. Más ingresos.",
+      "h1Accent": "Más ingresos.",
+      "subtitle": "agendallena envía el recordatorio, el seguimiento y la llamada por ti. Automático, sin esfuerzo.",
+      "ctaText": "Empezar gratis",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "15 días gratis · sin tarjeta",
+        "Mensajes y llamadas incluidos",
+        "Listo en 5 minutos"
+      ]
+    },
+    "performance": {
+      "assignments": 0,
+      "ctaClicks": 0,
+      "conversionRate": 0,
+      "lastUpdated": null
+    }
+  }
+}

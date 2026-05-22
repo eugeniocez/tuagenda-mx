@@ -7,6 +7,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "build:brand-pdf": "node scripts/build-brand-pdf.mjs",
+    "ab:matrix": "node scripts/update-ab-matrix.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",

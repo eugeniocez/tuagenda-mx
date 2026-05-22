@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matriz A/B — agendallena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --tinta: #0A0A0B;
+      --hueso: #FAFAF7;
+      --verde: #0F7B3F;
+      --verde-hover: #0C6633;
+      --verde-tenue: #E8F5EE;
+      --verde-superficie: #245C32;
+      --verde-acento: #4ADE80;
+      --grafito: #6B6B6B;
+      --gris-claro: #F1EFE8;
+      --gris-borde: #E8E6DE;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--hueso);
+      color: var(--tinta);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      background: var(--tinta);
+      color: var(--hueso);
+      padding: 32px 40px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .doc-header-left { flex: 1; }
+    .doc-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--verde-acento);
+      margin-bottom: 8px;
+    }
+    .doc-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--hueso);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .doc-title span { color: var(--verde-acento); }
+    .doc-meta {
+      font-size: 12px;
+      color: rgba(250,250,247,0.5);
+      margin-top: 8px;
+    }
+    .doc-meta strong { color: rgba(250,250,247,0.8); }
+    .doc-stats {
+      display: flex;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+    .stat-box {
+      text-align: center;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 16px 20px;
+      min-width: 100px;
+    }
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--hueso);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.03em;
+    }
+    .stat-value.green { color: var(--verde-acento); }
+    .stat-label {
+      font-size: 11px;
+      color: rgba(250,250,247,0.5);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    /* ── Signals ── */
+    .signals-section {
+      background: var(--verde-tenue);
+      border-bottom: 1px solid var(--gris-borde);
+      padding: 20px 40px;
+    }
+    .signals-heading {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--verde);
+      margin-bottom: 10px;
+    }
+    .signals-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .signal-item {
+      font-size: 13px;
+      color: var(--tinta);
+      padding-left: 16px;
+      position: relative;
+    }
+    .signal-item::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--verde);
+      font-weight: 600;
+    }
+
+    /* ── Tables ── */
+    .section {
+      padding: 32px 40px;
+    }
+    .section-heading {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--grafito);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-heading .count {
+      background: var(--gris-claro);
+      color: var(--tinta);
+      border-radius: 99px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .section-heading.killed-heading { color: #999; }
+    .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--gris-borde); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+    }
+    thead { background: var(--gris-claro); }
+    th {
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--grafito);
+      white-space: nowrap;
+      border-bottom: 1px solid var(--gris-borde);
+    }
+    td {
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--gris-borde);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(15,123,63,0.03); }
+
+    /* Row states */
+    .row-leader td { background: rgba(15,123,63,0.04); }
+    .row-killed td { opacity: 0.6; background: var(--gris-claro); }
+    .row-killed:hover td { background: var(--gris-claro); }
+
+    /* Variant badge */
+    .variant-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--tinta);
+      color: var(--hueso);
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .badge-leader { background: var(--verde); }
+    .badge-killed { background: var(--gris-borde); color: var(--grafito); }
+
+    .tag-leader {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--verde-tenue);
+      color: var(--verde);
+      border-radius: 99px;
+      padding: 2px 6px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .tag-killed {
+      display: block;
+      font-size: 10px;
+      color: var(--grafito);
+      margin-top: 4px;
+    }
+
+    /* Angle tag */
+    .angle-tag {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 500;
+      background: var(--gris-claro);
+      color: var(--tinta);
+      border-radius: 6px;
+      padding: 3px 7px;
+      white-space: nowrap;
+    }
+
+    /* Copy cells */
+    .cell-copy { max-width: 200px; }
+    .cell-h1 { max-width: 220px; font-weight: 600; color: var(--tinta); }
+    .copy-eyebrow { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: var(--verde); }
+    .copy-empty { color: var(--gris-borde); }
+
+    /* CTA pill */
+    .cta-pill {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .cta-verde { background: var(--verde); color: white; }
+    .cta-default { background: var(--tinta); color: var(--hueso); }
+
+    /* Trust signals */
+    .trust-item {
+      font-size: 11.5px;
+      color: var(--grafito);
+      padding: 2px 0;
+    }
+    .trust-item::before { content: '✓ '; color: var(--verde); font-weight: 600; }
+
+    /* Numbers */
+    .cell-num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      color: var(--tinta);
+      white-space: nowrap;
+    }
+    .cell-rate {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .rate-best { color: var(--verde); }
+
+    /* Footer */
+    .doc-footer {
+      padding: 24px 40px;
+      border-top: 1px solid var(--gris-borde);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--grafito);
+    }
+    .update-cmd {
+      font-family: monospace;
+      background: var(--gris-claro);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--tinta);
+    }
+    .cell-letter { white-space: nowrap; }
+
+    @media (max-width: 900px) {
+      .doc-header { flex-direction: column; padding: 24px 20px; }
+      .section { padding: 24px 20px; }
+      .signals-section { padding: 16px 20px; }
+      .doc-stats { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="doc-header">
+  <div class="doc-header-left">
+    <div class="doc-eyebrow">agendallena — A/B testing</div>
+    <h1 class="doc-title">Matriz de variantes <span>hero</span></h1>
+    <div class="doc-meta">
+      Generado: <strong>21 de mayo de 2026 a las 9:22 p.m.</strong> &nbsp;·&nbsp;
+      Performance GA4: <strong>21 may 2026, 9:22 p.m.</strong>
+    </div>
+  </div>
+  <div class="doc-stats">
+    <div class="stat-box">
+      <div class="stat-value">11</div>
+      <div class="stat-label">activas</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-value">14</div>
+      <div class="stat-label">total probadas</div>
+    </div>
+    
+    <div class="stat-box">
+      <div class="stat-value green">12.3%</div>
+      <div class="stat-label">mejor CTR (A)</div>
+    </div>
+    
+    <div class="stat-box">
+      <div class="stat-value">B</div>
+      <div class="stat-label">más asignaciones</div>
+    </div>
+  </div>
+</header>
+
+<div class="signals-section">
+  <div class="signals-heading">Señales detectadas</div>
+  <div class="signals-list">
+    <div class="signal-item">Variante <strong>A</strong> lidera con <strong>12.28%</strong> de conversión — "control — tagline directo".</div>
+    <div class="signal-item">Vs control (A): <strong>+0.00pp</strong> de diferencia.</div>
+    <div class="signal-item">Ángulo con mejor promedio: <strong>control</strong> (12.28%) vs social-proof-urgency (5.83%).</div>
+    <div class="signal-item">Variante con menor conversión: <strong>F</strong> con 5.83% — "peer pressure — tu competencia ya confirmó". Candidata a matar.</div>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-heading">
+    Variantes activas
+    <span class="count">11</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      
+  <thead>
+    <tr>
+      <th>Variante</th>
+      <th>Ángulo</th>
+      <th>Eyebrow</th>
+      <th>H1</th>
+      <th>Subtítulo</th>
+      <th>CTA</th>
+      <th>Trust signals</th>
+      <th>Asignaciones</th>
+      <th>Clics CTA</th>
+      <th>Conversión</th>
+    </tr>
+  </thead>
+      <tbody>
+        
+    <tr class="row-leader">
+      <td class="cell-letter">
+        <span class="variant-badge badge-leader">A</span>
+        <span class="tag-leader">líder</span>
+        
+      </td>
+      <td class="cell-angle"><span class="angle-tag">control</span></td>
+      <td class="cell-copy"><span class="copy-empty">—</span></td>
+      <td class="cell-copy cell-h1">Tu agenda, confirmada.</td>
+      <td class="cell-copy">La solución que confirma tu agenda por ti. Menos inasistencias, más certeza, sin perseguir a nadie por WhatsApp.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-default">Empezar gratis</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">15 días gratis · sin tarjeta</div><div class="trust-item">Mensajes y llamadas incluidos</div><div class="trust-item">Listo en 5 minutos</div></td>
+      <td class="cell-num">114</td>
+      <td class="cell-num">14</td>
+      <td class="cell-rate rate-best">12.28%</td>
+    </tr>
+    <tr class="">
+      <td class="cell-letter">
+        <span class="variant-badge ">I</span>
+        
+        
+      </td>
+      <td class="cell-angle"><span class="angle-tag">authority-positioning</span></td>
+      <td class="cell-copy"><span class="copy-eyebrow">Líderes en México</span></td>
+      <td class="cell-copy cell-h1">El sistema #1 de recordatorios</td>
+      <td class="cell-copy">Asegura que llegue cada cliente con recordatorios y llamadas automáticas.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-verde">Empieza 15 días gratis</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">Prueba sin tarjeta</div><div class="trust-item">Citas ilimitadas</div><div class="trust-item">Mensajes y llamadas incluidas</div></td>
+      <td class="cell-num">41</td>
+      <td class="cell-num">5</td>
+      <td class="cell-rate ">12.20%</td>
+    </tr>
+    <tr class="">
+      <td class="cell-letter">
+        <span class="variant-badge ">B</span>
+        
+        
+      </td>
+      <td class="cell-angle"><span class="angle-tag">automation-benefit</span></td>
+      <td class="cell-copy"><span class="copy-eyebrow">Para negocios que viven de su agenda</span></td>
+      <td class="cell-copy cell-h1">Confirmaciones automáticas. Tu agenda siempre llena.</td>
+      <td class="cell-copy">agendallena envía SMS, WhatsApp y una llamada por cada cita — sin que levantes el teléfono. El cliente confirma, tú solo atiendes.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-verde">Empezar gratis</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">$199/mes. Sin contratos. Sin sorpresas.</div><div class="trust-item">Mensajes y llamadas incluidos</div><div class="trust-item">Listo en 5 minutos</div></td>
+      <td class="cell-num">144</td>
+      <td class="cell-num">13</td>
+      <td class="cell-rate ">9.03%</td>
+    </tr>
+    <tr class="">
+      <td class="cell-letter">
+        <span class="variant-badge ">J</span>
+        
+        
+      </td>
+      <td class="cell-angle"><span class="angle-tag">abundance-outcome</span></td>
+      <td class="cell-copy"><span class="copy-eyebrow">Líderes en retención de cliente para México</span></td>
+      <td class="cell-copy cell-h1">Tu agenda. Siempre llena.</td>
+      <td class="cell-copy">Invitaciones automáticas, inteligentes y constantes a toda tu base de clientes. Ningún cliente previo te olvidará.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-verde">Empieza 15 días gratis</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">Prueba sin tarjeta</div><div class="trust-item">Citas ilimitadas</div><div class="trust-item">Mensajes y llamadas incluidas</div></td>
+      <td class="cell-num">34</td>
+      <td class="cell-num">3</td>
+      <td class="cell-rate ">8.82%</td>
+    </tr>
+    <tr class="">
+      <td class="cell-letter">
+        <span class="variant-badge ">G</span>
+        
+        
+      </td>
+      <td class="cell-angle"><span class="angle-tag">price-reframe</span></td>
+      <td class="cell-copy"><span class="copy-eyebrow">la matemática que cambia el cálculo</span></td>
+      <td class="cell-copy cell-h1">Cada cita que pierdes cuesta más de $199.</td>
+      <td class="cell-copy">Una sola cita recuperada paga el plan del mes entero.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-verde">Llenar mi agenda</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">Pago con tarjeta o en Oxxo</div><div class="trust-item">Cancela 24/7</div><div class="trust-item">Tuyo en 1 minuto</div></td>
+      <td class="cell-num">66</td>
+      <td class="cell-num">5</td>
+      <td class="cell-rate ">7.58%</td>
+    </tr>
+    <tr class="">
+      <td class="cell-letter">
+        <span class="variant-badge ">E</span>
+        
+        
+      </td>
+      <td class="cell-angle"><span class="angle-tag">loss-quantified</span></td>
+      <td class="cell-copy"><span class="copy-eyebrow">los números no mienten</span></td>
+      <td class="cell-copy cell-h1">3 de cada 10 citas no llegan. eso son más de $8,000 al mes.</td>
+      <td class="cell-copy">Cada cita olvidada es dinero regalado. agendallena la recupera.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-verde">Recuperar mi dinero</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">Pago con tarjeta o en Oxxo</div><div class="trust-item">Cancela 24/7</div><div class="trust-item">Se paga solo a la 1ra cita</div></td>
+      <td class="cell-num">100</td>
+      <td class="cell-num">7</td>
+      <td class="cell-rate ">7.00%</td>
+    </tr>
+    <tr class="">
+      <td class="cell-letter">
+        <span class="variant-badge ">D</span>
+        
+        
+      </td>
+      <td class="cell-angle"><span class="angle-tag">habit-replacement</span></td>
+      <td class="cell-copy"><span class="copy-eyebrow">¿Aún confirmas citas por WhatsApp?</span></td>
+      <td class="cell-copy cell-h1">Deja de hacerlo tú. agendallena lo hace solo.</td>
+      <td class="cell-copy">SMS, WhatsApp y llamada antes de cada cita — sin que muevas un dedo. Tus clientes confirman, tú solo atiendes.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-verde">Empezar gratis</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">15 días gratis · sin tarjeta</div><div class="trust-item">Pago con tarjeta o en OXXO</div><div class="trust-item">Listo en 5 minutos</div></td>
+      <td class="cell-num">103</td>
+      <td class="cell-num">7</td>
+      <td class="cell-rate ">6.80%</td>
+    </tr>
+    <tr class="">
+      <td class="cell-letter">
+        <span class="variant-badge ">F</span>
+        
+        
+      </td>
+      <td class="cell-angle"><span class="angle-tag">social-proof-urgency</span></td>
+      <td class="cell-copy"><span class="copy-eyebrow">mientras tú lees esto</span></td>
+      <td class="cell-copy cell-h1">Tu competencia ya confirmó las citas de mañana.</td>
+      <td class="cell-copy">Los demás ya confirman solos. Tú sigues persiguiendo.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-default">No quedarme atrás</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">Pago con tarjeta o en Oxxo</div><div class="trust-item">Cancela 24/7</div><div class="trust-item">Tuyo en 1 minuto</div></td>
+      <td class="cell-num">103</td>
+      <td class="cell-num">6</td>
+      <td class="cell-rate ">5.83%</td>
+    </tr>
+    <tr class="">
+      <td class="cell-letter">
+        <span class="variant-badge ">L</span>
+        
+        
+      </td>
+      <td class="cell-angle"><span class="angle-tag">unknown</span></td>
+      <td class="cell-copy"><span class="copy-eyebrow">para los que toman en serio su negocio</span></td>
+      <td class="cell-copy cell-h1">Tu agenda no falla. Nunca.</td>
+      <td class="cell-copy">agendallena confirma cada cita por SMS, WhatsApp y llamada — sin que levantes el teléfono.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-verde">Empezar gratis</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">15 días gratis · sin tarjeta</div><div class="trust-item">Mensajes y llamadas incluidos</div><div class="trust-item">Listo en 5 minutos</div></td>
+      <td class="cell-num">—</td>
+      <td class="cell-num">—</td>
+      <td class="cell-rate ">—</td>
+    </tr>
+    <tr class="">
+      <td class="cell-letter">
+        <span class="variant-badge ">M</span>
+        
+        
+      </td>
+      <td class="cell-angle"><span class="angle-tag">unknown</span></td>
+      <td class="cell-copy"><span class="copy-empty">—</span></td>
+      <td class="cell-copy cell-h1">Sabes exactamente quién llega mañana.</td>
+      <td class="cell-copy">Cada cita confirmada por SMS, WhatsApp y llamada. Tu calendario siempre al día, sin perseguir a nadie.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-verde">Empezar gratis</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">15 días gratis · sin tarjeta</div><div class="trust-item">Mensajes y llamadas incluidos</div><div class="trust-item">Listo en 5 minutos</div></td>
+      <td class="cell-num">—</td>
+      <td class="cell-num">—</td>
+      <td class="cell-rate ">—</td>
+    </tr>
+    <tr class="">
+      <td class="cell-letter">
+        <span class="variant-badge ">N</span>
+        
+        
+      </td>
+      <td class="cell-angle"><span class="angle-tag">unknown</span></td>
+      <td class="cell-copy"><span class="copy-eyebrow">la diferencia está en un mensaje</span></td>
+      <td class="cell-copy cell-h1">Menos inasistencias. Más ingresos.</td>
+      <td class="cell-copy">agendallena envía el recordatorio, el seguimiento y la llamada por ti. Automático, sin esfuerzo.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-verde">Empezar gratis</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">15 días gratis · sin tarjeta</div><div class="trust-item">Mensajes y llamadas incluidos</div><div class="trust-item">Listo en 5 minutos</div></td>
+      <td class="cell-num">—</td>
+      <td class="cell-num">—</td>
+      <td class="cell-rate ">—</td>
+    </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="section-heading killed-heading">
+    Variantes archivadas (killed)
+    <span class="count">3</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      
+  <thead>
+    <tr>
+      <th>Variante</th>
+      <th>Ángulo</th>
+      <th>Eyebrow</th>
+      <th>H1</th>
+      <th>Subtítulo</th>
+      <th>CTA</th>
+      <th>Trust signals</th>
+      <th>Asignaciones</th>
+      <th>Clics CTA</th>
+      <th>Conversión</th>
+    </tr>
+  </thead>
+      <tbody>
+        
+    <tr class="row-killed">
+      <td class="cell-letter">
+        <span class="variant-badge badge-killed">K</span>
+        
+        <span class="tag-killed">killed 2026-05-22</span>
+      </td>
+      <td class="cell-angle"><span class="angle-tag">hyperbolic-outcome</span></td>
+      <td class="cell-copy"><span class="copy-eyebrow">Líderes en México</span></td>
+      <td class="cell-copy cell-h1">Elimina los plantones y multiplica tus citas 10x</td>
+      <td class="cell-copy">Invita, recuerda y confirma a todos tus clientes para asegurar que tu negocio siempre esté lleno.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-verde">Empieza 15 días gratis</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">Prueba sin tarjeta</div><div class="trust-item">Citas ilimitadas</div><div class="trust-item">Mensajes y llamadas incluidas</div></td>
+      <td class="cell-num">30</td>
+      <td class="cell-num">1</td>
+      <td class="cell-rate ">3.33%</td>
+    </tr>
+    <tr class="row-killed">
+      <td class="cell-letter">
+        <span class="variant-badge badge-killed">C</span>
+        
+        <span class="tag-killed">killed 2026-05-22</span>
+      </td>
+      <td class="cell-angle"><span class="angle-tag">automation-benefit</span></td>
+      <td class="cell-copy"><span class="copy-eyebrow">Tu sistema de confirmación en automático</span></td>
+      <td class="cell-copy cell-h1">Tu agenda se confirma sola. Tú solo atiende.</td>
+      <td class="cell-copy">SMS, WhatsApp y llamada automática antes de cada cita. El cliente confirma, cancela o reagenda — tú lo ves en tu calendario al instante.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-verde">Probar 15 días gratis</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">Sin tarjeta de crédito</div><div class="trust-item">−70% inasistencias en promedio</div><div class="trust-item">Listo en 5 minutos</div></td>
+      <td class="cell-num">100</td>
+      <td class="cell-num">2</td>
+      <td class="cell-rate ">2.00%</td>
+    </tr>
+    <tr class="row-killed">
+      <td class="cell-letter">
+        <span class="variant-badge badge-killed">H</span>
+        
+        <span class="tag-killed">killed 2026-05-22</span>
+      </td>
+      <td class="cell-angle"><span class="angle-tag">challenge</span></td>
+      <td class="cell-copy"><span class="copy-eyebrow">la prueba del dinero</span></td>
+      <td class="cell-copy cell-h1">Cuenta las citas que perdiste este mes.</td>
+      <td class="cell-copy">Esa cifra es lo que agendallena te devuelve.</td>
+      <td class="cell-cta">
+        <span class="cta-pill cta-verde">Dejar de perder citas</span>
+      </td>
+      <td class="cell-trust"><div class="trust-item">Pago con tarjeta o en Oxxo</div><div class="trust-item">Cancela 24/7</div><div class="trust-item">Tuyo en 1 minuto</div></td>
+      <td class="cell-num">68</td>
+      <td class="cell-num">1</td>
+      <td class="cell-rate ">1.47%</td>
+    </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+<footer class="doc-footer">
+  <span>agendallena — matriz A/B hero · historial en <code>docs/ab-matrix/history.json</code></span>
+  <span>Actualizar: <span class="update-cmd">npm run ab:matrix</span></span>
+</footer>
+
+</body>
+</html>
