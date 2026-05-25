@@ -20,10 +20,10 @@
       ]
     },
     "performance": {
-      "assignments": 114,
-      "ctaClicks": 14,
-      "conversionRate": 12.28,
-      "lastUpdated": "2026-05-22T03:33:29.068Z"
+      "assignments": 899,
+      "ctaClicks": 81,
+      "conversionRate": 9.01,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
     }
   },
   "B": {
@@ -47,10 +47,10 @@
       ]
     },
     "performance": {
-      "assignments": 144,
-      "ctaClicks": 13,
-      "conversionRate": 9.03,
-      "lastUpdated": "2026-05-22T03:33:29.068Z"
+      "assignments": 880,
+      "ctaClicks": 31,
+      "conversionRate": 3.52,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
     }
   },
   "C": {
@@ -74,10 +74,10 @@
       ]
     },
     "performance": {
-      "assignments": 100,
-      "ctaClicks": 2,
-      "conversionRate": 2,
-      "lastUpdated": "2026-05-22T03:33:29.068Z"
+      "assignments": 2,
+      "ctaClicks": 0,
+      "conversionRate": 0,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
     }
   },
   "D": {
@@ -101,10 +101,10 @@
       ]
     },
     "performance": {
-      "assignments": 103,
-      "ctaClicks": 7,
-      "conversionRate": 6.8,
-      "lastUpdated": "2026-05-22T03:33:29.068Z"
+      "assignments": 877,
+      "ctaClicks": 37,
+      "conversionRate": 4.22,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
     }
   },
   "E": {
@@ -128,10 +128,10 @@
       ]
     },
     "performance": {
-      "assignments": 100,
-      "ctaClicks": 7,
-      "conversionRate": 7,
-      "lastUpdated": "2026-05-22T03:33:29.068Z"
+      "assignments": 880,
+      "ctaClicks": 26,
+      "conversionRate": 2.95,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
     }
   },
   "F": {
@@ -155,19 +155,19 @@
       ]
     },
     "performance": {
-      "assignments": 103,
-      "ctaClicks": 6,
-      "conversionRate": 5.83,
-      "lastUpdated": "2026-05-22T03:33:29.068Z"
+      "assignments": 871,
+      "ctaClicks": 22,
+      "conversionRate": 2.53,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
     }
   },
   "G": {
     "letter": "G",
     "label": "reframe precio — cita perdida > $199",
     "angle": "price-reframe",
-    "status": "active",
+    "status": "killed",
     "addedDate": "2026-05-19",
-    "killedDate": null,
+    "killedDate": "2026-05-25",
     "copy": {
       "eyebrow": "la matemática que cambia el cálculo",
       "h1": "Cada cita que pierdes cuesta más de $199.",
@@ -182,10 +182,10 @@
       ]
     },
     "performance": {
-      "assignments": 66,
-      "ctaClicks": 5,
-      "conversionRate": 7.58,
-      "lastUpdated": "2026-05-22T03:33:29.068Z"
+      "assignments": 839,
+      "ctaClicks": 15,
+      "conversionRate": 1.79,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
     }
   },
   "H": {
@@ -209,10 +209,10 @@
       ]
     },
     "performance": {
-      "assignments": 68,
+      "assignments": 79,
       "ctaClicks": 1,
-      "conversionRate": 1.47,
-      "lastUpdated": "2026-05-22T03:33:29.068Z"
+      "conversionRate": 1.27,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
     }
   },
   "I": {
@@ -236,10 +236,10 @@
       ]
     },
     "performance": {
-      "assignments": 41,
-      "ctaClicks": 5,
-      "conversionRate": 12.2,
-      "lastUpdated": "2026-05-22T03:33:29.068Z"
+      "assignments": 826,
+      "ctaClicks": 34,
+      "conversionRate": 4.12,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
     }
   },
   "J": {
@@ -263,10 +263,10 @@
       ]
     },
     "performance": {
-      "assignments": 34,
-      "ctaClicks": 3,
-      "conversionRate": 8.82,
-      "lastUpdated": "2026-05-22T03:33:29.068Z"
+      "assignments": 799,
+      "ctaClicks": 15,
+      "conversionRate": 1.88,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
     }
   },
   "K": {
@@ -290,10 +290,10 @@
       ]
     },
     "performance": {
-      "assignments": 30,
+      "assignments": 36,
       "ctaClicks": 1,
-      "conversionRate": 3.33,
-      "lastUpdated": "2026-05-22T03:33:29.068Z"
+      "conversionRate": 2.78,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
     }
   },
   "L": {
@@ -317,24 +317,105 @@
       ]
     },
     "performance": {
-      "assignments": 0,
-      "ctaClicks": 0,
-      "conversionRate": 0,
-      "lastUpdated": null
+      "assignments": 708,
+      "ctaClicks": 15,
+      "conversionRate": 2.12,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
     }
   },
   "M": {
     "letter": "M",
     "label": "certeza — sabes exactamente quién llega",
     "angle": "certainty",
-    "status": "active",
+    "status": "killed",
     "addedDate": "2026-05-22",
-    "killedDate": null,
+    "killedDate": "2026-05-25",
     "copy": {
       "eyebrow": "",
       "h1": "Sabes exactamente quién llega mañana.",
       "h1Accent": "quién llega mañana.",
       "subtitle": "Cada cita confirmada por SMS, WhatsApp y llamada. Tu calendario siempre al día, sin perseguir a nadie.",
+      "ctaText": "Empezar gratis",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "15 días gratis · sin tarjeta",
+        "Mensajes y llamadas incluidos",
+        "Listo en 5 minutos"
+      ]
+    },
+    "performance": {
+      "assignments": 708,
+      "ctaClicks": 9,
+      "conversionRate": 1.27,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
+    }
+  },
+  "N": {
+    "letter": "N",
+    "label": "resultado financiero positivo — menos inasistencias más ingresos",
+    "angle": "positive-financial-outcome",
+    "status": "killed",
+    "addedDate": "2026-05-22",
+    "killedDate": "2026-05-25",
+    "copy": {
+      "eyebrow": "la diferencia está en un mensaje",
+      "h1": "Menos inasistencias. Más ingresos.",
+      "h1Accent": "Más ingresos.",
+      "subtitle": "agendallena envía el recordatorio, el seguimiento y la llamada por ti. Automático, sin esfuerzo.",
+      "ctaText": "Empezar gratis",
+      "ctaColor": "verde",
+      "trustSignals": [
+        "15 días gratis · sin tarjeta",
+        "Mensajes y llamadas incluidos",
+        "Listo en 5 minutos"
+      ]
+    },
+    "performance": {
+      "assignments": 704,
+      "ctaClicks": 8,
+      "conversionRate": 1.14,
+      "lastUpdated": "2026-05-25T16:01:56.381Z"
+    }
+  },
+  "O": {
+    "letter": "O",
+    "label": "mecanismo secuencial — SMS WhatsApp llamada",
+    "angle": "mechanism-listing",
+    "status": "active",
+    "addedDate": "2026-05-25",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "",
+      "h1": "Un SMS. Un WhatsApp. Una llamada. Cita confirmada.",
+      "h1Accent": "Cita confirmada.",
+      "subtitle": "Así confirma agendallena cada cita — automático, antes de que el cliente olvide. Tú solo atiendes.",
+      "ctaText": "Empezar gratis",
+      "ctaColor": "default",
+      "trustSignals": [
+        "15 días gratis · sin tarjeta",
+        "Mensajes y llamadas incluidos",
+        "Listo en 5 minutos"
+      ]
+    },
+    "performance": {
+      "assignments": 0,
+      "ctaClicks": 0,
+      "conversionRate": 0,
+      "lastUpdated": null
+    }
+  },
+  "P": {
+    "letter": "P",
+    "label": "liberación — deja de perseguir empieza a confirmar",
+    "angle": "habit-liberation",
+    "status": "active",
+    "addedDate": "2026-05-25",
+    "killedDate": null,
+    "copy": {
+      "eyebrow": "¿Cuándo fue la última vez que perseguiste a un cliente?",
+      "h1": "Deja de perseguir. Empieza a confirmar.",
+      "h1Accent": "Empieza a confirmar.",
+      "subtitle": "agendallena manda el SMS, el WhatsApp y la llamada por ti. El cliente responde. Tú no haces nada.",
       "ctaText": "Empezar gratis",
       "ctaColor": "verde",
       "trustSignals": [
@@ -350,23 +431,23 @@
       "lastUpdated": null
     }
   },
-  "N": {
-    "letter": "N",
-    "label": "resultado financiero positivo — menos inasistencias más ingresos",
-    "angle": "positive-financial-outcome",
+  "Q": {
+    "letter": "Q",
+    "label": "pérdida personalizada — cuánto perdiste esta semana",
+    "angle": "personalized-loss",
     "status": "active",
-    "addedDate": "2026-05-22",
+    "addedDate": "2026-05-25",
     "killedDate": null,
     "copy": {
-      "eyebrow": "la diferencia está en un mensaje",
-      "h1": "Menos inasistencias. Más ingresos.",
-      "h1Accent": "Más ingresos.",
-      "subtitle": "agendallena envía el recordatorio, el seguimiento y la llamada por ti. Automático, sin esfuerzo.",
-      "ctaText": "Empezar gratis",
+      "eyebrow": "los números que nadie quiere ver",
+      "h1": "¿Cuánto perdiste esta semana en citas que no llegaron?",
+      "h1Accent": "en citas que no llegaron?",
+      "subtitle": "agendallena confirma cada cita antes de que el cliente olvide. SMS, WhatsApp y llamada — automático.",
+      "ctaText": "Dejar de perder dinero",
       "ctaColor": "verde",
       "trustSignals": [
+        "Se paga solo a la 1ra cita",
         "15 días gratis · sin tarjeta",
-        "Mensajes y llamadas incluidos",
         "Listo en 5 minutos"
       ]
     },

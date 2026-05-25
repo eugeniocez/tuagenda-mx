@@ -34,6 +34,9 @@ const VARIANT_META = {
   L: { label: 'identidad — tu agenda no falla nunca',         angle: 'identity' },
   M: { label: 'certeza — sabes exactamente quién llega',      angle: 'certainty' },
   N: { label: 'resultado financiero positivo — menos inasistencias más ingresos', angle: 'positive-financial-outcome' },
+  O: { label: 'mecanismo secuencial — SMS WhatsApp llamada', angle: 'mechanism-listing' },
+  P: { label: 'liberación — deja de perseguir empieza a confirmar', angle: 'habit-liberation' },
+  Q: { label: 'pérdida personalizada — cuánto perdiste esta semana', angle: 'personalized-loss' },
 }
 
 const ANALYTICS_URLS = process.env.ANALYTICS_PORT
