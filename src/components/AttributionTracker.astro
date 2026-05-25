@@ -1,0 +1,114 @@
+---
+// src/components/AttributionTracker.astro
+//
+// Captura de atribucion del lado del cliente. No renderiza nada visible.
+// Importalo y colocalo lo mas arriba posible en el <head> de tu layout o
+// del landing, antes de cualquier otro script, para que dispare en el primer
+// paint:  import AttributionTracker from "../components/AttributionTracker.astro"
+//         <AttributionTracker endpoint="/api/track" />
+//
+// CSS vanilla: no aplica, este componente no pinta UI.
+// JS: va inline con is:inline para que Astro NO lo procese ni lo difiera,
+// y corra tal cual lo antes posible.
+
+interface Props {
+  endpoint?: string;
+}
+const { endpoint = "/api/track" } = Astro.props;
+---
+
+<script is:inline define:vars={{ endpoint }}>
+  (function () {
+    // ---- helpers de cookie (first-party, SameSite=Lax, 2 anios) ----
+    function setCookie(name, value, days) {
+      var d = new Date();
+      d.setTime(d.getTime() + days * 864e5);
+      document.cookie =
+        name + "=" + encodeURIComponent(value) +
+        ";expires=" + d.toUTCString() +
+        ";path=/;SameSite=Lax;Secure";
+    }
+    function getCookie(name) {
+      var m = document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)");
+      return m ? decodeURIComponent(m.pop()) : null;
+    }
+
+    // ---- visitor ID propio y persistente (first-party) ----
+    var vid = getCookie("att_vid");
+    if (!vid) {
+      vid = (crypto && crypto.randomUUID)
+        ? crypto.randomUUID()
+        : (Date.now().toString(36) + Math.random().toString(36).slice(2));
+      setCookie("att_vid", vid, 730);
+    }
+
+    // ---- parametros de atribucion de la URL actual ----
+    var qs = new URLSearchParams(window.location.search);
+    var keys = ["utm_source","utm_medium","utm_campaign","utm_term","utm_content"];
+    var clickIds = ["gclid","fbclid","ttclid","msclkid"];
+
+    function pick(list) {
+      var o = {};
+      list.forEach(function (k) {
+        var v = qs.get(k);
+        if (v) o[k] = v;
+      });
+      return o;
+    }
+
+    var currentTouch = Object.assign({}, pick(keys), pick(clickIds));
+    var hasCurrentUtms = Object.keys(currentTouch).length > 0;
+
+    // ---- first-touch: se guarda UNA sola vez y no se sobreescribe ----
+    var firstTouch = null;
+    var stored = getCookie("att_first");
+    if (stored) {
+      try { firstTouch = JSON.parse(stored); } catch (e) { firstTouch = null; }
+    }
+    if (!firstTouch && hasCurrentUtms) {
+      firstTouch = Object.assign({ ts: Date.now() }, currentTouch);
+      setCookie("att_first", JSON.stringify(firstTouch), 730);
+    }
+
+    // ---- cierre del loop con Smartlook ----
+    // En vez de leer el ID interno de Smartlook (fragil), le empujamos NUESTRO
+    // vid via identify. Asi la sesion de Smartlook queda etiquetada con el mismo
+    // vid y los UTMs como propiedades, y luego el export de eventos de Smartlook
+    // se une por vid contra esta tabla de atribucion sin adivinar nada.
+    try {
+      if (typeof window.smartlook === "function") {
+        window.smartlook("identify", vid, Object.assign({}, currentTouch));
+      }
+    } catch (e) { /* Smartlook aun no carga, no pasa nada */ }
+
+    // ---- payload ----
+    var payload = {
+      vid: vid,
+      currentTouch: currentTouch,
+      firstTouch: firstTouch,
+      referrer: document.referrer || null,
+      landing: window.location.pathname + window.location.search,
+      host: window.location.host,
+      lang: navigator.language || null,
+      screen: { w: window.screen.width, h: window.screen.height },
+      tz: (Intl.DateTimeFormat().resolvedOptions().timeZone) || null,
+      tsClient: Date.now()
+    };
+
+    // ---- envio: sendBeacon sobrevive al bounce inmediato; fetch keepalive de fallback ----
+    function send() {
+      var body = JSON.stringify(payload);
+      var blob = new Blob([body], { type: "application/json" });
+      var ok = navigator.sendBeacon && navigator.sendBeacon(endpoint, blob);
+      if (!ok) {
+        fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: body,
+          keepalive: true
+        }).catch(function () {});
+      }
+    }
+    send();
+  })();
+</script>
