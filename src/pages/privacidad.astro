@@ -118,6 +118,19 @@ import Base from '../layouts/Base.astro';
             <strong>Vercel</strong> y proveedores de infraestructura en la nube — para el alojamiento
             y almacenamiento del servicio
           </li>
+          <li>
+            <strong>Google LLC</strong> — proveedor de Google Tag Manager, Google Analytics 4,
+            Google Ads y Google Sheets API, utilizados para análisis de tráfico, medición de
+            campañas publicitarias y almacenamiento de datos de atribución del sitio
+          </li>
+          <li>
+            <strong>Meta Platforms, Inc.</strong> — operador del Pixel de Meta, utilizado para
+            medición y optimización de campañas publicitarias en Facebook e Instagram
+          </li>
+          <li>
+            <strong>Smartlook</strong> — herramienta de grabación y análisis de sesiones en el
+            sitio web, utilizada para mejorar la experiencia de usuario
+          </li>
         </ul>
         <p>No vendemos ni cedemos sus datos a terceros con fines comerciales propios.</p>
 
@@ -146,16 +159,65 @@ import Base from '../layouts/Base.astro';
         <p>
           El sitio web de <strong class="brand-mention"
             >agendallena<span class="dot">.</span>mx</strong
-          > utiliza cookies técnicas necesarias para el funcionamiento del servicio y cookies analíticas
-          para entender el uso del sitio. No utilizamos cookies de publicidad de terceros.
+          > utiliza cookies y tecnologías similares para operar el servicio, medir el desempeño del
+          sitio y atribuir el origen de las visitas a nuestras campañas publicitarias.
         </p>
+        <p><strong>Cookies propias (first-party):</strong></p>
+        <ul>
+          <li>
+            <code>att_vid</code> — identificador anónimo único por visitante, generado en el
+            navegador. Vigencia: 2 años.
+          </li>
+          <li>
+            <code>att_first</code> — registra la fuente, medio y campaña de la primera visita del
+            usuario al sitio. Vigencia: 2 años.
+          </li>
+        </ul>
+        <p><strong>Datos del visitante que se recaban al cargar el sitio:</strong></p>
+        <ul>
+          <li>
+            Dirección IP completa del visitante (utilizada para análisis geográfico y de
+            atribución; ver política de retención en la sección 8)
+          </li>
+          <li>
+            Parámetros de la URL utilizados en campañas publicitarias: <code>utm_source</code>,
+            <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_term</code>,
+            <code>utm_content</code>
+          </li>
+          <li>
+            Identificadores de clic publicitario: <code>gclid</code> (Google Ads),
+            <code>fbclid</code> (Meta), <code>ttclid</code> (TikTok) y <code>msclkid</code>
+            (Microsoft Ads)
+          </li>
+          <li>
+            Página de aterrizaje, referente, idioma del navegador, zona horaria y resolución de
+            pantalla
+          </li>
+        </ul>
+        <p><strong>Tecnologías de terceros utilizadas en el sitio:</strong></p>
+        <ul>
+          <li>
+            <strong>Google Tag Manager, Google Analytics 4 y Google Ads</strong> — para medir el
+            tráfico del sitio, atribuir conversiones y optimizar campañas. Operan bajo las
+            políticas de privacidad de Google.
+          </li>
+          <li>
+            <strong>Pixel de Meta</strong> — para medir y optimizar campañas publicitarias en
+            Facebook e Instagram. Opera bajo las políticas de privacidad de Meta.
+          </li>
+          <li>
+            <strong>Smartlook</strong> — para grabar sesiones anónimas de uso del sitio y mejorar
+            la experiencia de usuario. Opera bajo sus propias políticas de privacidad.
+          </li>
+          <li>
+            <strong>Vercel Analytics</strong> — para métricas agregadas y anonimizadas del
+            desempeño del sitio.
+          </li>
+        </ul>
         <p>
-          Puede configurar su navegador para rechazar cookies, aunque esto puede afectar la
-          funcionalidad del sitio.
-        </p>
-        <p>
-          Utilizamos <strong>Vercel Analytics</strong> para métricas de uso del sitio, el cual opera con
-          datos anonimizados y sin identificación de usuarios individuales.
+          Puede configurar su navegador para rechazar cookies o utilizar extensiones de bloqueo
+          de rastreo. Esto puede afectar la funcionalidad del sitio y nuestra capacidad de medir
+          el desempeño de nuestras campañas.
         </p>
 
         <h2>7. Medidas de seguridad</h2>
@@ -168,11 +230,19 @@ import Base from '../layouts/Base.astro';
 
         <h2>8. Retención de datos</h2>
         <p>
-          Conservamos sus datos mientras mantenga activa su cuenta en <strong class="brand-mention"
+          <strong>Datos de cuenta y citas.</strong> Conservamos los datos del negocio y de sus
+          clientes finales mientras la cuenta en <strong class="brand-mention"
             >agendallena<span class="dot">.</span>mx</strong
-          >. Al eliminar su cuenta, sus datos son eliminados en un plazo máximo de <strong
-            >30 días naturales</strong
-          >.
+          > permanezca activa. Al eliminar su cuenta, sus datos son eliminados en un plazo máximo
+          de <strong>30 días naturales</strong>.
+        </p>
+        <p>
+          <strong>Datos de visitantes del sitio web.</strong> Los registros de atribución descritos
+          en la sección 6 (IP, parámetros de campaña, cookies <code>att_vid</code> y
+          <code>att_first</code>) se conservan por un período máximo de
+          <strong>18 meses</strong> a partir de la última visita. Transcurrido ese plazo, la
+          dirección IP se elimina o se anonimiza de los registros, y los datos restantes se
+          conservan únicamente para análisis estadístico agregado.
         </p>
 
         <h2>9. Cambios a este aviso</h2>
@@ -272,6 +342,16 @@ import Base from '../layouts/Base.astro';
     }
     .legal-content a:hover {
       color: var(--verde-hover);
+    }
+
+    .legal-content code {
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.875rem;
+      background: var(--gris-claro);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      color: var(--tinta);
     }
 
     .legal-footer-note {
