@@ -162,6 +162,33 @@ const {
     }
 
     // ============================================================
+    // Deteccion de vertical (a partir del path)
+    // ============================================================
+    // El landing es multi-vertical: `/` sirve el A/B principal, y rutas como
+    // `/dentistas`, `/veterinarias`, etc. sirven landings dedicadas por
+    // industria. La "variante de vertical" se deriva del primer segmento de
+    // path:
+    //   /                       -> "home"   (multi-vertical / A/B principal)
+    //   /dentistas              -> "dentistas"
+    //   /salones-de-belleza/    -> "salones-de-belleza"
+    //   /soporte, /privacidad   -> "soporte", "privacidad" (paginas auxiliares)
+    //
+    // No mantenemos una lista hardcoded de verticales validos: si marketing
+    // agrega una vertical nueva al repo, aparece sola en la columna `vertical`.
+    // El analista puede filtrar por la lista de verticales reales en SQL.
+    //
+    // El path es estable a lo largo de un page load (Astro 6 es estatico, no
+    // SPA), asi que todos los beacons de la misma visita comparten vertical.
+    function detectVertical() {
+      try {
+        var p = (window.location.pathname || "/").toLowerCase();
+        var seg = p.replace(/^\/+|\/+$/g, "").split("/")[0];
+        return seg || "home";
+      } catch (e) { return null; }
+    }
+    var vertical = detectVertical();
+
+    // ============================================================
     // Smartlook identify (se llama tras detectar variante)
     // ============================================================
     function smartlookIdentify() {
@@ -183,9 +210,16 @@ const {
     var hiddenStartedAt;       // !=null cuando la pagina esta hidden ahora mismo
     var accumulatedHiddenMs;   // suma de intervalos hidden ya cerrados
     var maxScrollPct;          // mayor % de pagina visto
+    var maxScrollPx;           // mayor scrollY observado (px), util cuando el alto del doc cambia
+    var hasScrolled;           // alguien hizo scroll real en algun momento?
     var ctaClickedCount;       // cuantos CTAs apretaron en la visita
     var pagehideSent;          // flag anti-duplicado para pagehide
 
+    // OJO: NO computar al cargar. document.documentElement.scrollHeight no es
+    // confiable antes de que la pagina termine de renderizar — durante el head,
+    // suele ser igual al viewport, lo que da pct=100 espurio. Inicializamos en 0
+    // y solo actualizamos cuando hay un scroll event REAL, o medimos una vez al
+    // final (sendPagehide) cuando el layout ya esta estable.
     function computeScrollPct() {
       try {
         var docH = (document.documentElement && document.documentElement.scrollHeight) || 0;
@@ -195,6 +229,10 @@ const {
         var seen = (window.scrollY || window.pageYOffset || 0) + window.innerHeight;
         return Math.max(0, Math.min(100, Math.round((seen / sh) * 100)));
       } catch (e) { return 0; }
+    }
+    function computeScrollPx() {
+      try { return Math.max(0, window.scrollY || window.pageYOffset || 0); }
+      catch (e) { return 0; }
     }
     function getWallMs() {
       return Math.max(0, Math.round(nowMs() - startedAt));
@@ -208,7 +246,9 @@ const {
       startedAt = nowMs();
       accumulatedHiddenMs = 0;
       hiddenStartedAt = (document.visibilityState === "hidden") ? startedAt : null;
-      maxScrollPct = computeScrollPct();
+      maxScrollPct = 0;       // se llena en el primer scroll real o en pagehide
+      maxScrollPx = 0;
+      hasScrolled = false;
       ctaClickedCount = 0;
       pagehideSent = false;
     }
@@ -232,7 +272,8 @@ const {
         screen: { w: window.screen.width, h: window.screen.height },
         tz: (Intl.DateTimeFormat().resolvedOptions().timeZone) || null,
         tsClient: Date.now(),
-        variant: variant || null
+        variant: variant || null,
+        vertical: vertical || null
       };
     }
 
@@ -287,14 +328,22 @@ const {
     // ============================================================
     // Scroll depth (throttled con requestAnimationFrame)
     // ============================================================
+    // Capturamos dos metricas complementarias:
+    //   - maxScrollPx: maximo scrollY observado (px). Independiente del alto
+    //     del documento. 0 == nunca hizo scroll real.
+    //   - maxScrollPct: max % de pagina alcanzado. Sensible al alto, pero util
+    //     cuando uno quiere "que tan abajo llegaron" como proporcion.
     var scrollScheduled = false;
     window.addEventListener("scroll", function () {
       if (scrollScheduled) return;
       scrollScheduled = true;
       requestAnimationFrame(function () {
         scrollScheduled = false;
-        var p = computeScrollPct();
-        if (p > maxScrollPct) maxScrollPct = p;
+        var px = computeScrollPx();
+        if (px > 0) hasScrolled = true;
+        if (px > maxScrollPx) maxScrollPx = px;
+        var pct = computeScrollPct();
+        if (pct > maxScrollPct) maxScrollPct = pct;
       });
     }, { passive: true });
 
@@ -328,10 +377,18 @@ const {
         accumulatedHiddenMs += (nowMs() - hiddenStartedAt);
         hiddenStartedAt = null;
       }
+      // Si el usuario nunca hizo scroll real, recien ahora (con el layout ya
+      // estable) capturamos el % de pagina que veia en el viewport inicial.
+      // Esto evita el bug del init donde scrollHeight era basura y scroll_pct
+      // arrancaba en 100 espurio.
+      if (!hasScrolled) {
+        maxScrollPct = computeScrollPct();
+      }
       var p = basePayload("pagehide");
       p.dwellMs = getWallMs();
       p.dwellMsActive = getActiveMs();
       p.scrollPct = maxScrollPct;
+      p.scrollPxMax = maxScrollPx;
       p.ctasClicked = ctaClickedCount;
       sendPayload(p);
     }

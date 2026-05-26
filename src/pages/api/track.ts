@@ -49,23 +49,17 @@ const VALID_EVENTS = new Set(["pageview", "cta_click", "pagehide"]);
 // Convierte el record anidado en una fila de 26 valores, en el MISMO orden
 // que los encabezados de la hoja.
 //
-// Orden de columnas (A..Z):
-//   A vid                 K referrer
-//   B first_source        L landing
-//   C first_medium        M lang
-//   D first_campaign      N tz
-//   E first_ts            O screen
-//   F current_source      P ip
-//   G current_medium      Q ts_server
-//   H current_campaign    R event_id          NEW
-//   I current_content     S session_id        NEW
-//   J click_id            T event_type        NEW
-//                         U variant           NEW
-//                         V cta_name          NEW
-//                         W ctas_clicked      NEW
-//                         X dwell_ms          NEW (wall time)
-//                         Y dwell_ms_active   NEW (sin background)
-//                         Z scroll_pct        NEW (max % de pagina visto)
+// Orden de columnas (A..AB):
+//   A vid                 K referrer            U variant
+//   B first_source        L landing             V cta_name
+//   C first_medium        M lang                W ctas_clicked
+//   D first_campaign      N tz                  X dwell_ms          (wall)
+//   E first_ts            O screen              Y dwell_ms_active   (sin background)
+//   F current_source      P ip                  Z scroll_pct        (max % de pagina visto)
+//   G current_medium      Q ts_server          AA scroll_px_max     (max scrollY observado, px)
+//   H current_campaign    R event_id           AB vertical          (vertical/path: home, dentistas, ...)
+//   I current_content     S session_id
+//   J click_id            T event_type
 
 type Touch = Record<string, string | number> | null | undefined;
 
@@ -138,6 +132,8 @@ function flatten(r: any): (string | number)[] {
     r.dwellMs ?? "",                              // X  dwell_ms
     r.dwellMsActive ?? "",                        // Y  dwell_ms_active
     r.scrollPct ?? "",                            // Z  scroll_pct
+    r.scrollPxMax ?? "",                          // AA scroll_px_max
+    r.vertical ?? "",                             // AB vertical
   ];
 }
 
@@ -155,8 +151,9 @@ function getClient(): JWT {
 
 async function persist(record: Record<string, unknown>): Promise<void> {
   const id = import.meta.env.GOOGLE_SHEETS_ID;
-  // Default range subio a A:Z (26 cols). Si tu env var sigue en A:Q, ampliar.
-  const range = import.meta.env.GOOGLE_SHEETS_RANGE ?? "Registros!A:Z";
+  // Default range A:AB (28 cols, incluye scroll_px_max y vertical).
+  // Si tu env var sigue en A:Z, A:AA o A:Q, ampliar.
+  const range = import.meta.env.GOOGLE_SHEETS_RANGE ?? "Registros!A:AB";
 
   if (!id) {
     console.log("[attribution]", JSON.stringify(record));
@@ -224,6 +221,12 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const dwellMs = safeNonNegMs(body.dwellMs);
   const dwellMsActive = safeNonNegMs(body.dwellMsActive);
   const scrollPct = safePct(body.scrollPct);
+  // scroll_px_max: pixels scrolled. Cap at 10M (any value bigger is a bug).
+  const scrollPxMax = safeNonNegMs(body.scrollPxMax, 10_000_000);
+  // vertical: primer segmento del path (home, dentistas, veterinarias, ...).
+  // Cap a 64 chars como salvavidas — los slugs reales son <30.
+  const vertical = typeof body.vertical === "string" && body.vertical.length <= 64
+    ? body.vertical : null;
 
   const record = {
     vid: body.vid,
@@ -249,6 +252,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     dwellMs,
     dwellMsActive,
     scrollPct,
+    scrollPxMax,
+    vertical,
   };
 
   try {

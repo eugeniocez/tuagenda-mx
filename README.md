@@ -126,12 +126,12 @@ localStorage.setItem('ag_ab_hero', 'B'); location.reload();    // forzar variant
 |---|---|---|
 | `pageview` | Al cargar (o al restaurar desde bfcache) | `variant` |
 | `cta_click` | Al clickear cualquier `[data-track-cta]` | `cta_name` |
-| `pagehide` | Al cerrar / navegar fuera / mandar a background | `dwell_ms`, `dwell_ms_active`, `scroll_pct`, `ctas_clicked` |
+| `pagehide` | Al cerrar / navegar fuera / mandar a background | `dwell_ms`, `dwell_ms_active`, `scroll_pct`, `scroll_px_max`, `ctas_clicked` |
 
 Los 3 beacons comparten `vid` (cookie 2 años) y `session_id` (cookie 1 día, rota tras 30 min de inactividad). Cada beacon tiene su `event_id` único para dedup downstream.
 
 **Datos capturados por beacon:**
-- `vid`, `session_id`, `event_id`, `event_type`, `variant`
+- `vid`, `session_id`, `event_id`, `event_type`, `variant`, `vertical`
 - `firstTouch` (UTMs + ts del primer hit, cookie `att_first`)
 - `currentTouch` (UTMs + click IDs: `gclid`, `fbclid`, `ttclid`, `msclkid`)
 - `referrer`, `landing`, `host`, `lang`, `tz`, `screen`
@@ -148,21 +148,21 @@ Los 3 beacons comparten `vid` (cookie 2 años) y `session_id` (cookie 1 día, ro
 - `GOOGLE_SHEETS_ID` — id de la hoja
 - `GOOGLE_SERVICE_ACCOUNT_EMAIL` — `client_email` del Service Account JSON
 - `GOOGLE_PRIVATE_KEY` — `private_key` del JSON (con `\n` escapados)
-- `GOOGLE_SHEETS_RANGE` — opcional, default `Registros!A:Z`
+- `GOOGLE_SHEETS_RANGE` — opcional, default `Registros!A:AB`
 
-**Headers del Sheet (fila 1, columnas A..Z):**
+**Headers del Sheet (fila 1, columnas A..AB — 28 columnas):**
 
 ```
-A vid               K referrer          R event_id
-B first_source      L landing           S session_id
-C first_medium      M lang              T event_type
-D first_campaign    N tz                U variant
-E first_ts          O screen            V cta_name
-F current_source    P ip                W ctas_clicked
-G current_medium    Q ts_server         X dwell_ms
-H current_campaign                      Y dwell_ms_active
-I current_content                       Z scroll_pct
-J click_id
+A vid               K referrer          U variant
+B first_source      L landing           V cta_name
+C first_medium      M lang              W ctas_clicked
+D first_campaign    N tz                X dwell_ms
+E first_ts          O screen            Y dwell_ms_active
+F current_source    P ip                Z scroll_pct
+G current_medium    Q ts_server        AA scroll_px_max
+H current_campaign  R event_id         AB vertical
+I current_content   S session_id
+J click_id          T event_type
 ```
 
 **Cookies first-party del tracker:**
