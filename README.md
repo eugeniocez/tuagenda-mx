@@ -29,7 +29,7 @@ Landing principal de [agendallena.mx](https://agendallena.mx) — el sistema que
 │   │       └── track.ts           Endpoint de atribución → Google Sheets
 │   ├── components/
 │   │   ├── AttributionTracker.astro   Captura UTMs/click IDs, cookies first-party
-│   │   ├── HeroIndex.astro            4 variantes A/B (A/B/C/D)
+│   │   ├── HeroIndex.astro            11 variantes A/B (A, B, D, E, F, I, J, L, O, P, Q)
 │   │   └── …                          11+ secciones como componentes
 │   ├── content/verticals/             Copy por vertical (17 archivos .ts)
 │   ├── layouts/Base.astro             Head, header, footer, GTM, script A/B
@@ -90,12 +90,27 @@ Todas usan el mismo template; el copy de cada una vive en `src/content/verticals
 
 ## A/B test del hero
 
-La landing principal sirve 11 variantes (A, B, D, E, F, I, J, L, O, P, Q) con distribución uniforme.
+La landing principal sirve 11 variantes con distribución uniforme (~9.09% c/u). Cada variante prueba un ángulo de copy distinto.
 
-- Asignación: script inline en `<head>` de `Base.astro`. Escribe `ag_ab_hero` en `localStorage`, setea `data-ab-hero` en `<html>` y expone `window.__lpVariant` para el tracker — todo antes del primer paint
-- Componente: `src/components/HeroIndex.astro` — 11 bloques `[data-hero-variant]`
-- Tracking GTM: `ab_hero_assign` al cargar + parámetro `ab_hero` en cada `cta_click`
-- Tracking server-side: el AttributionTracker captura la variante en la columna `variant` del Sheet (vía `window.__lpVariant`)
+| Variante | Ángulo | H1 |
+|---|---|---|
+| A (control) | Tagline directo | "Tu agenda, confirmada." |
+| B | Económico | "Confirmaciones automáticas. Tu agenda siempre llena." |
+| D | Reemplazo de hábito | "Deja de hacerlo tú. agendallena lo hace solo." |
+| E | Pérdida cuantificada | "3 de cada 10 citas no llegan. eso son más de $8,000 al mes." |
+| F | Peer pressure | "Tu competencia ya confirmó las citas de mañana." |
+| I | Autoridad / #1 | "El sistema #1 de recordatorios" |
+| J | Retención de cliente | "Tu agenda. Siempre llena." |
+| L | Identidad / nunca falla | "Tu agenda no falla. Nunca." |
+| O | Mecanismo secuencial | "Un SMS. Un WhatsApp. Una llamada. Cita confirmada." |
+| P | Liberación del esfuerzo | "Deja de perseguir. Empieza a confirmar." |
+| Q | Pérdida personalizada | "¿Cuánto perdiste esta semana en citas que no llegaron?" |
+
+- **Asignación:** script inline en `<head>` de `Base.astro` — escribe `ag_ab_hero` en `localStorage`, setea `data-ab-hero` en `<html>` y expone `window.__lpVariant` para el tracker, todo antes del primer paint
+- **Distribución:** `Math.random()` con 10 umbrales equidistantes (múltiplos de 1/11 ≈ 0.0909)
+- **Componente:** `src/components/HeroIndex.astro` — 11 bloques `[data-hero-variant]`, CSS muestra solo el activo
+- **Tracking GTM:** `ab_hero_assign` al cargar + parámetro `ab_hero` en cada `cta_click`
+- **Tracking server-side:** AttributionTracker captura la variante en la columna `variant` del Sheet (vía `window.__lpVariant`)
 
 Forzar variante en consola del browser:
 ```js
