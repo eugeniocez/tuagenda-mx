@@ -591,16 +591,10 @@ p {
 /* A/B HERO VARIANTS */
 [data-hero-variant] { display: none; }
 html[data-ab-hero="A"] [data-hero-variant="A"],
-html[data-ab-hero="B"] [data-hero-variant="B"],
-html[data-ab-hero="D"] [data-hero-variant="D"],
 html[data-ab-hero="E"] [data-hero-variant="E"],
 html[data-ab-hero="F"] [data-hero-variant="F"],
-html[data-ab-hero="I"] [data-hero-variant="I"],
 html[data-ab-hero="J"] [data-hero-variant="J"],
-html[data-ab-hero="L"] [data-hero-variant="L"],
-html[data-ab-hero="O"] [data-hero-variant="O"],
-html[data-ab-hero="P"] [data-hero-variant="P"],
-html[data-ab-hero="Q"] [data-hero-variant="Q"] { display: block; }
+html[data-ab-hero="P"] [data-hero-variant="P"] { display: block; }
 html:not([data-ab-hero]) [data-hero-variant="A"] { display: block; }
 
 .btn-primary-lg.btn-verde {
