@@ -90,11 +90,12 @@ Todas usan el mismo template; el copy de cada una vive en `src/content/verticals
 
 ## A/B test del hero
 
-La landing principal sirve 4 variantes (A/B/C/D) con distribución 25/25/25/25.
+La landing principal sirve 11 variantes (A, B, D, E, F, I, J, L, O, P, Q) con distribución uniforme.
 
-- Asignación: script inline en `<head>` de `Base.astro`, escribe en `localStorage` y setea `data-ab-hero` en `<html>` antes del primer paint
-- Componente: `src/components/HeroIndex.astro` — 4 bloques `[data-hero-variant]`
-- Tracking: GTM pushea `ab_hero_assign` al cargar y enriquece cada `cta_click` con `ab_hero`
+- Asignación: script inline en `<head>` de `Base.astro`. Escribe `ag_ab_hero` en `localStorage`, setea `data-ab-hero` en `<html>` y expone `window.__lpVariant` para el tracker — todo antes del primer paint
+- Componente: `src/components/HeroIndex.astro` — 11 bloques `[data-hero-variant]`
+- Tracking GTM: `ab_hero_assign` al cargar + parámetro `ab_hero` en cada `cta_click`
+- Tracking server-side: el AttributionTracker captura la variante en la columna `variant` del Sheet (vía `window.__lpVariant`)
 
 Forzar variante en consola del browser:
 ```js
@@ -102,32 +103,75 @@ localStorage.clear(); location.reload();                       // nueva asignaci
 localStorage.setItem('ag_ab_hero', 'B'); location.reload();    // forzar variante específica
 ```
 
-## Tracking de atribución
+## Tracking de atribución (v2)
 
-`AttributionTracker.astro` corre antes del primer paint y dispara un beacon a `/api/track` con:
+`AttributionTracker.astro` corre antes del primer paint y emite **hasta 3 beacons por visita** contra `/api/track`, distinguidos por `event_type`:
 
-- `vid` (UUID propio en cookie first-party `att_vid`, 2 años)
-- `firstTouch` (UTMs + ts del primer hit con UTMs, en cookie `att_first`)
-- `currentTouch` (UTMs + click IDs de la URL actual: `gclid`, `fbclid`, `ttclid`, `msclkid`)
+| event_type | Cuándo | Campos extra |
+|---|---|---|
+| `pageview` | Al cargar (o al restaurar desde bfcache) | `variant` |
+| `cta_click` | Al clickear cualquier `[data-track-cta]` | `cta_name` |
+| `pagehide` | Al cerrar / navegar fuera / mandar a background | `dwell_ms`, `dwell_ms_active`, `scroll_pct`, `ctas_clicked` |
+
+Los 3 beacons comparten `vid` (cookie 2 años) y `session_id` (cookie 1 día, rota tras 30 min de inactividad). Cada beacon tiene su `event_id` único para dedup downstream.
+
+**Datos capturados por beacon:**
+- `vid`, `session_id`, `event_id`, `event_type`, `variant`
+- `firstTouch` (UTMs + ts del primer hit, cookie `att_first`)
+- `currentTouch` (UTMs + click IDs: `gclid`, `fbclid`, `ttclid`, `msclkid`)
 - `referrer`, `landing`, `host`, `lang`, `tz`, `screen`
-- IP en crudo (capturada server-side, declarada en aviso de privacidad)
+- IP en crudo (capturada server-side, declarada en `/privacidad`)
 
-El endpoint aplana a 17 columnas y hace `values.append` a Google Sheets vía Service Account.
+**CTAs marcados con `data-track-cta`** (ver `cta_name` en el Sheet):
+- `header_primary` (header sticky, todos los layouts)
+- `hero_primary` (las 11 variantes del hero index + verticales)
+- `how_primary` (CTA al final de "Cómo funciona")
+- `pricing_primary` (CTA del pricing)
+- `final_primary` y `final_demo` (CTAs de la sección final)
 
 **Env vars requeridas en Vercel:**
 - `GOOGLE_SHEETS_ID` — id de la hoja
 - `GOOGLE_SERVICE_ACCOUNT_EMAIL` — `client_email` del Service Account JSON
 - `GOOGLE_PRIVATE_KEY` — `private_key` del JSON (con `\n` escapados)
-- `GOOGLE_SHEETS_RANGE` — opcional, default `Registros!A:Q`
+- `GOOGLE_SHEETS_RANGE` — opcional, default `Registros!A:Z`
 
-**Headers del Sheet (fila 1):**
-`vid | first_source | first_medium | first_campaign | first_ts | current_source | current_medium | current_campaign | current_content | click_id | referrer | landing | lang | tz | screen | ip | ts_server`
+**Headers del Sheet (fila 1, columnas A..Z):**
 
-Para agregar una columna nueva, ver el flujo de 6 pasos en la sección "Para extender el tracking" del proyecto.
+```
+A vid               K referrer          R event_id
+B first_source      L landing           S session_id
+C first_medium      M lang              T event_type
+D first_campaign    N tz                U variant
+E first_ts          O screen            V cta_name
+F current_source    P ip                W ctas_clicked
+G current_medium    Q ts_server         X dwell_ms
+H current_campaign                      Y dwell_ms_active
+I current_content                       Z scroll_pct
+J click_id
+```
+
+**Cookies first-party del tracker:**
+| Cookie | Vigencia | Función |
+|---|---|---|
+| `att_vid` | 2 años | UUID anónimo del visitante |
+| `att_first` | 2 años | UTMs + ts del primer hit con UTMs |
+| `att_sid` + `att_sid_ts` | 1 día | session_id + marca de actividad (rota a 30 min idle) |
+| `att_variant` | 7 días | variante A/B cacheada para consistencia entre beacons |
+
+**Volumen / límites.** Sheets API ~60 escrituras/min. v2 emite 2-3 beacons por visita → techo efectivo ~20 visitas/min. Para volúmenes mayores, migrar `persist()` en `track.ts` a una BD (Postgres / Supabase).
 
 ### Cierre de loop con Smartlook
 
-`AttributionTracker` llama `window.smartlook("identify", vid, currentTouch)` para etiquetar la sesión de Smartlook con el mismo `vid`, permitiendo unir grabaciones contra la tabla de atribución sin adivinar.
+`AttributionTracker` llama `window.smartlook("identify", vid, { ...currentTouch, variant, session_id })` para etiquetar la sesión de Smartlook con el mismo `vid` + variante + sesión, permitiendo unir grabaciones contra la tabla de atribución sin adivinar.
+
+### Para extender el tracking (agregar columnas nuevas)
+
+1. Agregar el campo al `payload` en `AttributionTracker.astro` (dato cliente) o derivarlo en `track.ts` (server-side)
+2. Agregar la propiedad al `record` en `track.ts`
+3. Agregar la celda correspondiente en `flatten()`
+4. Agregar el header en la fila 1 del Sheet
+5. Si rebasa la columna Z, actualizar `GOOGLE_SHEETS_RANGE`
+6. Si el dato es PII: actualizar `/privacidad`
 
 ## Stack de marketing actual
 
