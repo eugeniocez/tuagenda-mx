@@ -3,23 +3,63 @@
 //
 // Captura de atribucion del lado del cliente. No renderiza nada visible.
 // Importalo y colocalo lo mas arriba posible en el <head> de tu layout o
-// del landing, antes de cualquier otro script, para que dispare en el primer
-// paint:  import AttributionTracker from "../components/AttributionTracker.astro"
-//         <AttributionTracker endpoint="/api/track" />
+// del landing, antes de cualquier otro script:
+//   import AttributionTracker from "../components/AttributionTracker.astro"
+//   <AttributionTracker endpoint="/api/track" />
 //
 // CSS vanilla: no aplica, este componente no pinta UI.
-// JS: va inline con is:inline para que Astro NO lo procese ni lo difiera,
-// y corra tal cual lo antes posible.
+// JS: va inline con is:inline para que Astro NO lo procese ni lo difiera.
+//
+// =====================================================================
+// v2 — event stream con identidad de sesion y senales de engagement
+// =====================================================================
+// Emite hasta 3 tipos de beacon por visita, todos contra /api/track,
+// distinguidos por event_type:
+//
+//   pageview   — al cargar la pagina (o al restaurar desde bfcache).
+//                Trae la variante servida.
+//   cta_click  — cuando el usuario hace click en un elemento [data-track-cta].
+//                Trae cta_name.
+//   pagehide   — cuando el usuario abandona (cerrar tab, navegar fuera, mandar
+//                a background). Trae dwell_ms (wall), dwell_ms_active (sin
+//                tiempo en background), scroll_pct (max % de pagina visto),
+//                ctas_clicked (cuantos CTAs apretaron en la visita).
+//
+// Cada beacon trae:
+//   - vid          : visitor id (persistente 2 anios)
+//   - session_id   : id de sesion (rotacion por inactividad >30 min)
+//   - event_id     : id unico del beacon (para dedup downstream)
+//   - variant      : variante del A/B servida (si la pagina la publica)
+//
+// VARIANTE: la pagina debe escribir la variante en alguno de estos lugares
+// (revisados en orden):
+//   1. <body data-lp-variant="A">  (recomendado para Astro/SSR)
+//   2. cookie  att_variant=A
+//   3. ?v=A  o  ?variant=A         (URL)
+//   4. window.__lpVariant = "A"
+//   5. localStorage.att_variant
+// El primer hit gana. Se cachea en cookie 7 dias para que beacons posteriores
+// dentro de la misma visita acuerden el valor.
+//
+// CTAs: cualquier elemento con  data-track-cta="nombre"  se trackea via
+// event delegation. CTAs agregadas dinamicamente tambien funcionan.
+// ---
 
 interface Props {
   endpoint?: string;
+  ctaSelector?: string;
 }
-const { endpoint = "/api/track" } = Astro.props;
+const {
+  endpoint = "/api/track",
+  ctaSelector = "[data-track-cta]"
+} = Astro.props;
 ---
 
-<script is:inline define:vars={{ endpoint }}>
+<script is:inline define:vars={{ endpoint, ctaSelector }}>
   (function () {
-    // ---- helpers de cookie (first-party, SameSite=Lax, 2 anios) ----
+    // ============================================================
+    // Helpers
+    // ============================================================
     function setCookie(name, value, days) {
       var d = new Date();
       d.setTime(d.getTime() + days * 864e5);
@@ -32,21 +72,52 @@ const { endpoint = "/api/track" } = Astro.props;
       var m = document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)");
       return m ? decodeURIComponent(m.pop()) : null;
     }
+    function uuid() {
+      try { if (crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+      return Date.now().toString(36) + Math.random().toString(36).slice(2);
+    }
+    // Monotonic clock for engagement timing (immune to wall-clock jumps).
+    function nowMs() {
+      return (typeof performance !== "undefined" && performance.now)
+        ? performance.now()
+        : Date.now();
+    }
 
-    // ---- visitor ID propio y persistente (first-party) ----
+    // ============================================================
+    // Identidad: vid (2 anios) + session_id (30 min de inactividad)
+    // ============================================================
+    var SESSION_TIMEOUT_MS = 30 * 60 * 1000;
+
     var vid = getCookie("att_vid");
     if (!vid) {
-      vid = (crypto && crypto.randomUUID)
-        ? crypto.randomUUID()
-        : (Date.now().toString(36) + Math.random().toString(36).slice(2));
+      vid = uuid();
       setCookie("att_vid", vid, 730);
     }
 
-    // ---- parametros de atribucion de la URL actual ----
+    // session_id: se renueva si pasaron >30 min sin actividad. La actividad se
+    // marca en cada beacon (touchSessionActivity), no solo al cargar.
+    function rollSessionIfNeeded() {
+      var now = Date.now();
+      var sidNow = getCookie("att_sid");
+      var sidTs = parseInt(getCookie("att_sid_ts") || "0", 10);
+      if (!sidNow || !sidTs || (now - sidTs) > SESSION_TIMEOUT_MS) {
+        sidNow = uuid();
+        setCookie("att_sid", sidNow, 1);
+      }
+      setCookie("att_sid_ts", String(now), 1);
+      return sidNow;
+    }
+    function touchSessionActivity() {
+      setCookie("att_sid_ts", String(Date.now()), 1);
+    }
+    var sid = rollSessionIfNeeded();
+
+    // ============================================================
+    // Atribucion: UTMs / click_ids / firstTouch
+    // ============================================================
     var qs = new URLSearchParams(window.location.search);
     var keys = ["utm_source","utm_medium","utm_campaign","utm_term","utm_content"];
     var clickIds = ["gclid","fbclid","ttclid","msclkid"];
-
     function pick(list) {
       var o = {};
       list.forEach(function (k) {
@@ -55,48 +126,118 @@ const { endpoint = "/api/track" } = Astro.props;
       });
       return o;
     }
-
     var currentTouch = Object.assign({}, pick(keys), pick(clickIds));
     var hasCurrentUtms = Object.keys(currentTouch).length > 0;
 
-    // ---- first-touch: se guarda UNA sola vez y no se sobreescribe ----
     var firstTouch = null;
     var stored = getCookie("att_first");
-    if (stored) {
-      try { firstTouch = JSON.parse(stored); } catch (e) { firstTouch = null; }
-    }
+    if (stored) { try { firstTouch = JSON.parse(stored); } catch (e) {} }
     if (!firstTouch && hasCurrentUtms) {
       firstTouch = Object.assign({ ts: Date.now() }, currentTouch);
       setCookie("att_first", JSON.stringify(firstTouch), 730);
     }
 
-    // ---- cierre del loop con Smartlook ----
-    // En vez de leer el ID interno de Smartlook (fragil), le empujamos NUESTRO
-    // vid via identify. Asi la sesion de Smartlook queda etiquetada con el mismo
-    // vid y los UTMs como propiedades, y luego el export de eventos de Smartlook
-    // se une por vid contra esta tabla de atribucion sin adivinar nada.
-    try {
-      if (typeof window.smartlook === "function") {
-        window.smartlook("identify", vid, Object.assign({}, currentTouch));
-      }
-    } catch (e) { /* Smartlook aun no carga, no pasa nada */ }
+    // ============================================================
+    // Deteccion de variante (5 fuentes, primera en ganar)
+    // ============================================================
+    function detectVariant() {
+      var v = null;
+      try { v = (document.body && document.body.dataset && document.body.dataset.lpVariant) || null; } catch (e) {}
+      if (!v) v = getCookie("att_variant");
+      if (!v) v = qs.get("v") || qs.get("variant");
+      if (!v) { try { v = window.__lpVariant || null; } catch (e) {} }
+      if (!v) { try { v = localStorage.getItem("att_variant"); } catch (e) {} }
+      if (v) setCookie("att_variant", v, 7);
+      return v || null;
+    }
+    var variant = detectVariant();
+    // El tracker corre desde <head>; el body puede no existir aun. Si la
+    // variante vive en <body data-lp-variant>, hay que re-detectar tras DOM.
+    function reDetectVariantIfMissing() {
+      if (variant) return;
+      try {
+        var v = document.body && document.body.dataset && document.body.dataset.lpVariant;
+        if (v) { variant = v; setCookie("att_variant", v, 7); }
+      } catch (e) {}
+    }
 
-    // ---- payload ----
-    var payload = {
-      vid: vid,
-      currentTouch: currentTouch,
-      firstTouch: firstTouch,
-      referrer: document.referrer || null,
-      landing: window.location.pathname + window.location.search,
-      host: window.location.host,
-      lang: navigator.language || null,
-      screen: { w: window.screen.width, h: window.screen.height },
-      tz: (Intl.DateTimeFormat().resolvedOptions().timeZone) || null,
-      tsClient: Date.now()
-    };
+    // ============================================================
+    // Smartlook identify (se llama tras detectar variante)
+    // ============================================================
+    function smartlookIdentify() {
+      try {
+        if (typeof window.smartlook === "function") {
+          var props = Object.assign({}, currentTouch);
+          if (variant) props.variant = variant;
+          props.session_id = sid;
+          window.smartlook("identify", vid, props);
+        }
+      } catch (e) {}
+    }
+    smartlookIdentify();  // primera llamada; se repite tras emitPageview() con variante final
 
-    // ---- envio: sendBeacon sobrevive al bounce inmediato; fetch keepalive de fallback ----
-    function send() {
+    // ============================================================
+    // Estado de engagement (reseteable en bfcache restore)
+    // ============================================================
+    var startedAt;             // marca de inicio de la "visita" actual
+    var hiddenStartedAt;       // !=null cuando la pagina esta hidden ahora mismo
+    var accumulatedHiddenMs;   // suma de intervalos hidden ya cerrados
+    var maxScrollPct;          // mayor % de pagina visto
+    var ctaClickedCount;       // cuantos CTAs apretaron en la visita
+    var pagehideSent;          // flag anti-duplicado para pagehide
+
+    function computeScrollPct() {
+      try {
+        var docH = (document.documentElement && document.documentElement.scrollHeight) || 0;
+        var bodyH = document.body ? document.body.scrollHeight : 0;
+        var sh = Math.max(docH, bodyH);
+        if (!sh) return 0;
+        var seen = (window.scrollY || window.pageYOffset || 0) + window.innerHeight;
+        return Math.max(0, Math.min(100, Math.round((seen / sh) * 100)));
+      } catch (e) { return 0; }
+    }
+    function getWallMs() {
+      return Math.max(0, Math.round(nowMs() - startedAt));
+    }
+    function getActiveMs() {
+      var totalHidden = accumulatedHiddenMs;
+      if (hiddenStartedAt !== null) totalHidden += (nowMs() - hiddenStartedAt);
+      return Math.max(0, Math.round((nowMs() - startedAt) - totalHidden));
+    }
+    function resetEngagementState() {
+      startedAt = nowMs();
+      accumulatedHiddenMs = 0;
+      hiddenStartedAt = (document.visibilityState === "hidden") ? startedAt : null;
+      maxScrollPct = computeScrollPct();
+      ctaClickedCount = 0;
+      pagehideSent = false;
+    }
+    resetEngagementState();
+
+    // ============================================================
+    // Payload + envio
+    // ============================================================
+    function basePayload(eventType) {
+      return {
+        vid: vid,
+        sessionId: sid,
+        eventId: uuid(),
+        eventType: eventType,
+        currentTouch: currentTouch,
+        firstTouch: firstTouch,
+        referrer: document.referrer || null,
+        landing: window.location.pathname + window.location.search,
+        host: window.location.host,
+        lang: navigator.language || null,
+        screen: { w: window.screen.width, h: window.screen.height },
+        tz: (Intl.DateTimeFormat().resolvedOptions().timeZone) || null,
+        tsClient: Date.now(),
+        variant: variant || null
+      };
+    }
+
+    function sendPayload(payload) {
+      touchSessionActivity();  // cualquier beacon cuenta como actividad para la sesion
       var body = JSON.stringify(payload);
       var blob = new Blob([body], { type: "application/json" });
       var ok = navigator.sendBeacon && navigator.sendBeacon(endpoint, blob);
@@ -109,6 +250,106 @@ const { endpoint = "/api/track" } = Astro.props;
         }).catch(function () {});
       }
     }
-    send();
+
+    // ============================================================
+    // Beacon 1 — pageview
+    // ============================================================
+    function emitPageview() {
+      reDetectVariantIfMissing();
+      smartlookIdentify();
+      sendPayload(basePayload("pageview"));
+    }
+    if (!variant && document.readyState === "loading") {
+      // Esperamos al DOM solo si todavia no encontramos variante; asi le damos
+      // una chance al <body data-lp-variant> que aun no existe.
+      document.addEventListener("DOMContentLoaded", emitPageview, { once: true });
+    } else {
+      emitPageview();
+    }
+
+    // ============================================================
+    // Beacon 2 — cta_click (event delegation)
+    // ============================================================
+    document.addEventListener("click", function (e) {
+      var t = e.target;
+      if (!t || typeof t.closest !== "function") return;
+      var el = t.closest(ctaSelector);
+      if (!el) return;
+      ctaClickedCount += 1;
+      var ctaName = el.getAttribute("data-track-cta")
+        || (el.innerText || el.textContent || "").trim().slice(0, 60)
+        || "unnamed";
+      var p = basePayload("cta_click");
+      p.ctaName = ctaName;
+      sendPayload(p);
+    }, { capture: true, passive: true });
+
+    // ============================================================
+    // Scroll depth (throttled con requestAnimationFrame)
+    // ============================================================
+    var scrollScheduled = false;
+    window.addEventListener("scroll", function () {
+      if (scrollScheduled) return;
+      scrollScheduled = true;
+      requestAnimationFrame(function () {
+        scrollScheduled = false;
+        var p = computeScrollPct();
+        if (p > maxScrollPct) maxScrollPct = p;
+      });
+    }, { passive: true });
+
+    // ============================================================
+    // Active-time + trigger de pagehide via visibilitychange
+    // ============================================================
+    document.addEventListener("visibilitychange", function () {
+      var now = nowMs();
+      if (document.visibilityState === "hidden") {
+        if (hiddenStartedAt === null) hiddenStartedAt = now;
+        // En movil, visibilitychange a hidden es el evento mas fiable de "se
+        // van". Disparamos pagehide aqui tambien — el flag evita duplicados
+        // con el pagehide nativo que sigue.
+        sendPagehide();
+      } else {
+        if (hiddenStartedAt !== null) {
+          accumulatedHiddenMs += (now - hiddenStartedAt);
+          hiddenStartedAt = null;
+        }
+      }
+    });
+
+    // ============================================================
+    // Beacon 3 — pagehide (engagement + scroll + cta count)
+    // ============================================================
+    function sendPagehide() {
+      if (pagehideSent) return;
+      pagehideSent = true;
+      // Si estamos hidden ahora, cerramos el intervalo antes de medir.
+      if (hiddenStartedAt !== null) {
+        accumulatedHiddenMs += (nowMs() - hiddenStartedAt);
+        hiddenStartedAt = null;
+      }
+      var p = basePayload("pagehide");
+      p.dwellMs = getWallMs();
+      p.dwellMsActive = getActiveMs();
+      p.scrollPct = maxScrollPct;
+      p.ctasClicked = ctaClickedCount;
+      sendPayload(p);
+    }
+    window.addEventListener("pagehide", sendPagehide, { capture: true });
+
+    // ============================================================
+    // bfcache: restauracion via back/forward
+    // ============================================================
+    // Cuando el navegador restaura la pagina del bfcache, performance.now() NO
+    // se resetea — los contadores quedarian con valores absurdos. pageshow con
+    // persisted=true es la senal canonica: tratamos la restauracion como un
+    // nuevo pageview, re-evaluamos sesion (puede haber pasado >30 min) y
+    // reseteamos todos los contadores de engagement.
+    window.addEventListener("pageshow", function (e) {
+      if (!e.persisted) return;
+      sid = rollSessionIfNeeded();
+      resetEngagementState();
+      emitPageview();
+    });
   })();
 </script>

@@ -28,7 +28,6 @@ import AttributionTracker from '../components/AttributionTracker.astro';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#FAFAF7" />
-    <AttributionTracker endpoint="/api/track" />
     <script is:inline>
       (function () {
         var KEY = 'ag_ab_hero';
@@ -39,8 +38,10 @@ import AttributionTracker from '../components/AttributionTracker.astro';
           localStorage.setItem(KEY, v);
         }
         document.documentElement.setAttribute('data-ab-hero', v);
+        window.__lpVariant = v;
       })();
     </script>
+    <AttributionTracker endpoint="/api/track" />
     <!-- Google Tag Manager -->
     <script is:inline>
       (function (w, d, s, l, i) {
@@ -130,7 +131,7 @@ import AttributionTracker from '../components/AttributionTracker.astro';
           <a href="https://app.agendallena.mx/login" class="nav-link" style="color: var(--grafito)"
             >Iniciar sesión</a
           >
-          <a href="https://app.agendallena.mx/registro" class="btn btn-primary"> Empezar gratis </a>
+          <a href="https://app.agendallena.mx/registro" data-track-cta="header_primary" class="btn btn-primary"> Empezar gratis </a>
         </nav>
       </div>
     </header>

@@ -172,6 +172,15 @@ import Base from '../layouts/Base.astro';
             <code>att_first</code> — registra la fuente, medio y campaña de la primera visita del
             usuario al sitio. Vigencia: 2 años.
           </li>
+          <li>
+            <code>att_sid</code> y <code>att_sid_ts</code> — identificador de sesión y marca de
+            tiempo de actividad. Permiten agrupar las interacciones de una misma visita y se
+            renuevan tras 30 minutos de inactividad. Vigencia: 1 día.
+          </li>
+          <li>
+            <code>att_variant</code> — registra la variante de la landing que se sirvió al
+            visitante para fines de pruebas A/B. Vigencia: 7 días.
+          </li>
         </ul>
         <p><strong>Datos del visitante que se recaban al cargar el sitio:</strong></p>
         <ul>
@@ -194,6 +203,25 @@ import Base from '../layouts/Base.astro';
             pantalla
           </li>
         </ul>
+        <p><strong>Datos de interacción anónima con el sitio:</strong></p>
+        <ul>
+          <li>
+            Identificador del botón presionado (<code>cta_name</code>) y total de botones
+            presionados durante la visita
+          </li>
+          <li>
+            Tiempo en página (total y activo, sin contar tiempo en segundo plano) y porcentaje
+            máximo de la página alcanzado al hacer scroll
+          </li>
+          <li>
+            Variante de la landing servida durante la visita (<code>variant</code>)
+          </li>
+        </ul>
+        <p>
+          Estos datos se asocian al identificador anónimo <code>att_vid</code> y no permiten
+          identificar personalmente al visitante. Se utilizan para medir la calidad de la
+          experiencia del sitio y optimizar las campañas publicitarias.
+        </p>
         <p><strong>Tecnologías de terceros utilizadas en el sitio:</strong></p>
         <ul>
           <li>
