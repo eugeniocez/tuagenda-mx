@@ -34,7 +34,7 @@ import AttributionTracker from '../components/AttributionTracker.astro';
         var v = localStorage.getItem(KEY);
         if (!v) {
           var r = Math.random();
-          v = r < 0.2 ? 'A' : r < 0.4 ? 'E' : r < 0.6 ? 'F' : r < 0.8 ? 'J' : 'P';
+          v = r < 0.2 ? 'A' : r < 0.4 ? 'E' : r < 0.6 ? 'F' : r < 0.8 ? 'J' : 'R';
           localStorage.setItem(KEY, v);
         }
         document.documentElement.setAttribute('data-ab-hero', v);

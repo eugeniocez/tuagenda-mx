@@ -594,7 +594,7 @@ html[data-ab-hero="A"] [data-hero-variant="A"],
 html[data-ab-hero="E"] [data-hero-variant="E"],
 html[data-ab-hero="F"] [data-hero-variant="F"],
 html[data-ab-hero="J"] [data-hero-variant="J"],
-html[data-ab-hero="P"] [data-hero-variant="P"] { display: block; }
+html[data-ab-hero="R"] [data-hero-variant="R"] { display: block; }
 html:not([data-ab-hero]) [data-hero-variant="A"] { display: block; }
 
 .btn-primary-lg.btn-verde {
