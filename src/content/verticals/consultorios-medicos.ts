@@ -9,9 +9,9 @@ export const consultoriosMedicos: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para consultorios médicos',
-    h1: 'Solución para consultorios médicos en México',
+    h1: 'Pacientes que confirman. Agenda que no falla.',
     subtitle:
-      'La solución que confirma las citas de tu consultorio por ti. Pacientes que llegan, agenda predecible, sin llamadas de seguimiento.',
+      'agendallena recuerda y confirma a tus pacientes antes de cada consulta. Sin huecos de última hora, sin llamadas de seguimiento.',
   },
   problema: {
     cards: [

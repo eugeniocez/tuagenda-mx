@@ -9,9 +9,9 @@ export const veterinarias: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para veterinarias y clínicas veterinarias',
-    h1: 'Solución de citas para veterinarias en México',
+    h1: 'La consulta agendada tiene que llegar con su paciente',
     subtitle:
-      'La solución que confirma las consultas de tu clínica por ti. Sin perseguir dueños por WhatsApp, sin consultas perdidas.',
+      'agendallena confirma a los dueños antes de cada cita. Sin consultas perdidas, sin veterinario esperando, sin hueco en la agenda.',
   },
   problema: {
     cards: [

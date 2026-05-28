@@ -9,9 +9,9 @@ export const salonesDeBelleza: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para salones de belleza',
-    h1: 'Solución para salones de belleza en México',
+    h1: 'Sin clientas que no llegan. Sin tiempo de trabajo perdido.',
     subtitle:
-      'La solución que confirma las citas de tu salón por ti. Sin huecos sin aviso, sin clientas que no llegan, sin correr para rellenar el horario.',
+      'agendallena avisa y confirma a tus clientas antes de su cita. Sin correr para rellenar el horario, sin materiales listos para nadie.',
   },
   problema: {
     cards: [

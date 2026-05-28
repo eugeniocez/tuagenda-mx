@@ -9,9 +9,9 @@ export const salonesDeUnas: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para salones de uñas',
-    h1: 'Solución de citas para salones de uñas en México',
+    h1: 'Tu tiempo es demasiado exacto para un lugar vacío',
     subtitle:
-      'La solución que confirma las citas de tu salón por ti. Sin perseguir clientas por WhatsApp, sin lugares vacíos a última hora.',
+      'agendallena confirma a tus clientas antes de su cita. Sin huecos sin aviso, sin lugar preparado que nadie aprovechó.',
   },
   problema: {
     cards: [

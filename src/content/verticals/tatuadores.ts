@@ -9,9 +9,9 @@ export const tatuadores: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para tatuadores',
-    h1: 'Solución de citas para tatuadores en México',
+    h1: 'Horas de diseño y preparación que alguien tiene que aprovechar',
     subtitle:
-      'La solución que confirma las sesiones de tus clientes por ti. Sin perseguirlos por WhatsApp, sin horas de trabajo preparado para nadie.',
+      'agendallena confirma a tus clientes antes de cada sesión. Sin prep para nadie, sin horas de trabajo perdidas por un plantón.',
   },
   problema: {
     cards: [

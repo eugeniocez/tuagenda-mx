@@ -8,10 +8,10 @@ export const dentistas: VerticalContent = {
       'Solución que confirma citas de dentistas en automático por SMS, WhatsApp y llamada. Menos inasistencias en tu clínica dental. $199 MXN/mes. Prueba gratis.',
   },
   hero: {
-    eyebrow: 'Para dentistas',
-    h1: 'Solución de citas para dentistas en México',
+    eyebrow: 'Para clínicas dentales',
+    h1: 'El sillón que preparaste tiene que estar ocupado',
     subtitle:
-      'La solución que confirma las citas de tu clínica dental por ti. Sin perseguir pacientes por WhatsApp, sin sillones vacíos a última hora.',
+      'agendallena confirma a tus pacientes por SMS y llamada antes de su cita. Sin sillones vacíos, sin asistente haciendo llamadas que nadie contesta.',
   },
   problema: {
     cards: [

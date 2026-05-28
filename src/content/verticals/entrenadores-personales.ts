@@ -9,9 +9,9 @@ export const entrenadoresPersonales: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para entrenadores personales',
-    h1: 'Solución de sesiones para entrenadores personales en México',
+    h1: 'La sesión que diseñaste tiene que suceder',
     subtitle:
-      'La solución que confirma las sesiones de tus clientes por ti. Sin perseguirlos por WhatsApp, sin sesiones perdidas.',
+      'agendallena avisa y confirma a tus clientes antes de cada sesión. Sin esperar a alguien que no llega, sin horas de entrenamiento perdidas.',
   },
   problema: {
     cards: [

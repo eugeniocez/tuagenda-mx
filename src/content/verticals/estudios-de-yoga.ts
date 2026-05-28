@@ -9,9 +9,9 @@ export const estudiosDeYoga: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para estudios de yoga y pilates',
-    h1: 'Solución de clases para estudios de yoga en México',
+    h1: 'El lugar en la clase tiene que estar ocupado',
     subtitle:
-      'La solución que confirma los lugares de tu estudio por ti. Sin perseguir alumnos por WhatsApp, sin clases con lugares vacíos.',
+      'agendallena confirma a tus alumnos antes de cada clase. Sin lugares vacíos, sin instructor preparando una clase para nadie.',
   },
   problema: {
     cards: [

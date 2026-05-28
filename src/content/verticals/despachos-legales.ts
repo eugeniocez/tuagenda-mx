@@ -9,9 +9,9 @@ export const despachosLegales: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para despachos legales',
-    h1: 'Solución de consultas para despachos legales en México',
+    h1: 'La hora de consultoría no puede irse sin facturarse',
     subtitle:
-      'La solución que confirma las consultas de tu despacho por ti. Sin perseguir clientes por WhatsApp, sin horas de asesoría perdidas.',
+      'agendallena confirma a tus clientes antes de cada consulta. Sin reuniones que no ocurren, sin horas de asesoría perdidas.',
   },
   problema: {
     cards: [

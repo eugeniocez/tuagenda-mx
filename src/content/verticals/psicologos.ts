@@ -8,10 +8,10 @@ export const psicologos: VerticalContent = {
       'Solución que confirma sesiones de psicólogos en automático por SMS, WhatsApp y llamada. Menos ausencias, sin interrumpir tu consulta. $199 MXN/mes.',
   },
   hero: {
-    eyebrow: 'Para psicólogos',
-    h1: 'Solución de citas para psicólogos en México',
+    eyebrow: 'Para psicólogos y terapeutas',
+    h1: 'La sesión que preparaste no puede perderse por falta de confirmación',
     subtitle:
-      'La solución que confirma tus sesiones por ti. Menos ausencias, más certeza, sin interrumpir el ritmo de tu consulta.',
+      'agendallena confirma a tus pacientes antes de cada sesión. Sin interrumpir tu consulta, sin sesiones vacías, sin perseguir a nadie.',
   },
   problema: {
     cards: [

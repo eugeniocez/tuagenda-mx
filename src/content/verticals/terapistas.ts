@@ -9,9 +9,9 @@ export const terapistas: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para terapistas y fisioterapeutas',
-    h1: 'Solución de citas para terapistas en México',
+    h1: 'La sesión preparada necesita al paciente que la pidió',
     subtitle:
-      'La solución que confirma las sesiones de tus pacientes por ti. Sin perseguirlos por WhatsApp, sin sesiones perdidas.',
+      'agendallena confirma a tus pacientes antes de cada sesión. Sin equipo listo para nadie, sin interrumpir el proceso de recuperación.',
   },
   problema: {
     cards: [

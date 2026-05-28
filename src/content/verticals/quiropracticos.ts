@@ -9,9 +9,9 @@ export const quiropracticos: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para quiroprácticos',
-    h1: 'Solución de citas para quiroprácticos en México',
+    h1: 'El ajuste preparado necesita al paciente que lo pidió',
     subtitle:
-      'La solución que confirma las sesiones de tus pacientes por ti. Sin perseguirlos por WhatsApp, sin ajustes preparados para nadie.',
+      'agendallena avisa y confirma a tus pacientes antes de cada sesión. Sin esperar a alguien que no llega, sin ajuste preparado para nadie.',
   },
   problema: {
     cards: [

@@ -9,9 +9,9 @@ export const spas: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para spas y centros de bienestar',
-    h1: 'Solución de citas para spas en México',
+    h1: 'La cabina reservada no puede estar vacía',
     subtitle:
-      'La solución que confirma las reservaciones de tu spa por ti. Sin perseguir clientes por WhatsApp, sin cabinas vacías a última hora.',
+      'agendallena confirma a tus clientes antes de su reservación. Sin preparar un servicio para nadie, sin terapeuta esperando sin motivo.',
   },
   problema: {
     cards: [

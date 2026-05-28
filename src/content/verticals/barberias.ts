@@ -9,9 +9,9 @@ export const barberias: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para barberías',
-    h1: 'Solución para barberías en México',
+    h1: 'El turno apartado tiene que llegar',
     subtitle:
-      'La solución que confirma los turnos de tu barbería por ti. Sin huecos sin aviso, sin esperar a alguien que no va a llegar.',
+      'agendallena confirma a tus clientes antes de su turno. Sin barbero esperando, sin silla vacía sin aviso.',
   },
   problema: {
     cards: [

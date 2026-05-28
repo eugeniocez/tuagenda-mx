@@ -9,9 +9,9 @@ export const talleresMecanicos: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para talleres mecánicos',
-    h1: 'Solución de citas para talleres mecánicos en México',
+    h1: 'La bahía que apartaste tiene que estar trabajando',
     subtitle:
-      'La solución que confirma las citas de tu taller por ti. Sin perseguir clientes por WhatsApp, sin bahías bloqueadas para trabajos que no llegan.',
+      'agendallena confirma a tus clientes antes de llevar el coche. Sin bahías bloqueadas sin trabajo, sin refacciones compradas para nadie.',
   },
   problema: {
     cards: [

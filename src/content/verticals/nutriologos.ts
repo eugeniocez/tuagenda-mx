@@ -9,9 +9,9 @@ export const nutriologos: VerticalContent = {
   },
   hero: {
     eyebrow: 'Para nutriólogos',
-    h1: 'Solución de consultas para nutriólogos en México',
+    h1: 'El seguimiento que preparaste necesita que tu paciente aparezca',
     subtitle:
-      'La solución que confirma las consultas de tus pacientes por ti. Sin perseguirlos por WhatsApp, sin seguimientos interrumpidos.',
+      'agendallena confirma a tus pacientes antes de cada consulta. Sin seguimientos que se cortan, sin proceso interrumpido.',
   },
   problema: {
     cards: [
